@@ -345,7 +345,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
           <text x="160" y="316" font-size="15" font-weight="500" fill="#0f1215">MCP23017</text>
           <text x="160" y="334" font-size="12.5" fill="#8a929b">16 saídas</text>
           <text x="440" y="316" font-size="15" font-weight="500" fill="#0f1215">PCF8574</text>
-          <text x="440" y="334" font-size="12.5" fill="#8a929b">3 saídas</text>
+          <text x="440" y="334" font-size="12.5" fill="#8a929b">sem uso hoje</text>
           <text x="720" y="316" font-size="15" font-weight="500" fill="#0f1215">2 × ADS1115</text>
           <text x="720" y="334" font-size="12.5" fill="#8a929b">conversores A/D</text>
           <text x="160" y="401" font-size="14" fill="#0f1215">Saída 12</text>
@@ -362,7 +362,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
       <dl class="spec">
         <div><dt>Controlador</dt><dd>ESP32-S3</dd></div>
         <div><dt>Expansor de saídas</dt><dd>MCP23017 com 16 saídas, que no código comandam as válvulas. A saída 12 é o relé da bomba.</dd></div>
-        <div><dt>Expansor de solenoides</dt><dd>PCF8574 com 3 saídas de solenoide.</dd></div>
+        <div><dt>Expansor de solenoides</dt><dd>PCF8574 com 3 saídas de solenoide, herdado do hardware e firmware antigos. Hoje não tem uso, porque as válvulas passaram a ser acionadas por relés.</dd></div>
         <div><dt>Conversores A/D</dt><dd>Dois ADS1115 que, juntos, leem 5 canais de pressão, a tensão da bateria e a tensão da bomba.</dd></div>
         <div><dt>Barramento</dt><dd>I²C (pelo datasheet, esses chips só têm I²C).</dd></div>
         <div><dt>Nuvem</dt><dd>Telemetria por MQTT para o ThingsBoard.</dd></div>
@@ -393,8 +393,8 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
       <h3>Religamento</h3>
       <p>Não existe religamento automático da bomba. O tratamento volta pelo botão ou por comando remoto.</p>
 
-      <h3>Retrolavagem (versão 1.0.2)</h3>
-      <p>Dispara quando o diferencial de pressão passa de 1 bar, e só é checada com a máquina parada.</p>
+      <h3>Retrolavagem</h3>
+      <p>Na versão atual, a retrolavagem é verificada durante o tratamento. Os limites de pressão estão altos de propósito, enquanto as pressões altas do sistema não são resolvidas.</p>
     </div>
   </div>
 </section>

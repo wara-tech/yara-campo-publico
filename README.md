@@ -44,7 +44,7 @@ Os repositórios públicos estão em [github.com/wara-tech](https://github.com/w
 
 - Controlador ESP32-S3.
 - MCP23017 com 16 saídas, que no código comandam as válvulas; a saída 12 é o relé da bomba.
-- PCF8574 com 3 saídas de solenoide.
+- PCF8574 com 3 saídas de solenoide, herdado do hardware e firmware antigos. Hoje não tem uso, porque as válvulas passaram a ser acionadas por relés.
 - Dois ADS1115 que, juntos, leem 5 canais de pressão, a tensão da bateria e a tensão da bomba.
 - Barramento I²C (pelo datasheet, esses chips só têm I²C).
 - Telemetria por MQTT para o ThingsBoard.
@@ -56,7 +56,7 @@ Os repositórios públicos estão em [github.com/wara-tech](https://github.com/w
 - A bomba só liga se as válvulas abertas formarem uma das combinações cadastradas.
 - Proteção de pressão: a bomba desliga na hora quando qualquer sensor passa do limite configurável `estado_muito_alto`, que fica gravado na placa. Depois do corte, o firmware reabre as válvulas, espera 15 s e confere de novo com 3 bar fixo; se a pressão continuar alta, encerra o tratamento.
 - Não existe religamento automático da bomba. O tratamento volta pelo botão ou por comando remoto.
-- Retrolavagem (versão 1.0.2): dispara quando o diferencial de pressão passa de 1 bar, e só é checada com a máquina parada.
+- Retrolavagem: na versão atual, é verificada durante o tratamento. Os limites de pressão estão altos de propósito, enquanto as pressões altas do sistema não são resolvidas.
 
 ## Telemetria e versão
 
