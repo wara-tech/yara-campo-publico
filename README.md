@@ -10,7 +10,7 @@ Documento técnico da Yara Box (Wara Tech), versão de campo: controle, firmware
 
 Os repositórios públicos estão em [github.com/wara-tech](https://github.com/wara-tech). Sugerimos esta ordem:
 
-1. [Yara_Firmware-publico, branch campo-1.0.2](https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.2): código da versão 1.0.2.
+1. [Yara_Firmware-publico, branch campo-1.0.3](https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.3): código da versão 1.0.3, que roda na máquina.
 2. [YB-projeto-eletrico-publico](https://github.com/wara-tech/YB-projeto-eletrico-publico): projeto elétrico.
 3. [YB-dashboard-thingsboard-publico](https://github.com/wara-tech/YB-dashboard-thingsboard-publico): painel no ThingsBoard.
 
@@ -40,11 +40,11 @@ Os repositórios públicos estão em [github.com/wara-tech](https://github.com/w
 
 ## Controle
 
-*Lido no código da 1.0.2 e da main.*
+*Lido no código da 1.0.3.*
 
 - Controlador ESP32-S3.
 - MCP23017 com 16 saídas, que no código comandam as válvulas; a saída 12 é o relé da bomba.
-- PCF8574 com 3 saídas de solenoide, herdado do hardware e firmware antigos. Hoje não tem uso, porque as válvulas passaram a ser acionadas por relés.
+- PCF8574: lê os botões de iniciar e parar, o botão rotativo, os sensores de nível e a chave de reciclagem, acende os LEDs de alarme, alerta e tratamento e liga o modem SIM7080. As 3 saídas de solenoide, herdadas do hardware antigo, só são acionadas no modo de teste e na inicialização.
 - Dois ADS1115 que, juntos, leem 5 canais de pressão, a tensão da bateria e a tensão da bomba.
 - Barramento I²C (pelo datasheet, esses chips só têm I²C).
 - Telemetria por MQTT para o ThingsBoard.
@@ -55,13 +55,13 @@ Os repositórios públicos estão em [github.com/wara-tech](https://github.com/w
 
 - A bomba só liga se as válvulas abertas formarem uma das combinações cadastradas.
 - Proteção de pressão: a bomba desliga na hora quando qualquer sensor passa do limite configurável `estado_muito_alto`, que fica gravado na placa. Depois do corte, o firmware reabre as válvulas, espera 15 s e confere de novo com 3 bar fixo; se a pressão continuar alta, encerra o tratamento.
-- Não existe religamento automático da bomba. O tratamento volta pelo botão ou por comando remoto.
-- Retrolavagem: na versão atual, é verificada durante o tratamento. Os limites de pressão estão altos de propósito, enquanto as pressões altas do sistema não são resolvidas.
+- Não há religamento automático após o corte por pressão. O tratamento volta pelo botão, por comando remoto, pelo menu ou se o sensor de vazão detectar fluxo por mais de 30 s com o tratamento parado (caminho feito para o bombeamento manual).
+- Retrolavagem: o código checa o diferencial de pressão de cada filtro durante o tratamento, contra um limite de 8 bar fixo no código, alto de propósito enquanto as pressões altas do sistema não são resolvidas. Depois da lavagem, o firmware volta para o tratamento.
 
 ## Telemetria e versão
 
 - Cerca de 116 mil pontos por dia e 338 mensagens por hora (medido).
-- Em 29/09/2026, a máquina rodava a 1.0.2. O código dessa versão está na branch `campo-1.0.2`.
+- A máquina roda a 1.0.3 (confirmado em 07/10/2026). O código dessa versão está na branch `campo-1.0.3`.
 
 ## Fotos
 

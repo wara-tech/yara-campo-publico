@@ -196,7 +196,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
         <h3>Por onde começar no GitHub</h3>
         <p>Os repositórios públicos estão em <a href="https://github.com/wara-tech">github.com/wara-tech</a>. Sugerimos esta ordem:</p>
         <ol class="links">
-          <li><span><a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.2">Yara_Firmware-publico, branch campo-1.0.2</a>: código da versão 1.0.2.</span></li>
+          <li><span><a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.3">Yara_Firmware-publico, branch campo-1.0.3</a>: código da versão 1.0.3, que roda na máquina.</span></li>
           <li><span><a href="https://github.com/wara-tech/YB-projeto-eletrico-publico">YB-projeto-eletrico-publico</a>: projeto elétrico.</span></li>
           <li><span><a href="https://github.com/wara-tech/YB-dashboard-thingsboard-publico">YB-dashboard-thingsboard-publico</a>: painel no ThingsBoard.</span></li>
         </ol>
@@ -308,7 +308,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
     <div class="sec-head"><p class="eyebrow">Hardware de controle</p><h2>Arquitetura</h2></div>
     <div class="body">
       <p>Um ESP32-S3 conversa por I²C com os expansores de saída e com os conversores analógico-digitais, e envia a telemetria por MQTT para o ThingsBoard.</p>
-      <p class="src">Lido no código da 1.0.2 e da main. I²C pelo datasheet: esses chips só têm interface I²C.</p>
+      <p class="src">Lido no código da 1.0.3. I²C pelo datasheet: esses chips só têm interface I²C.</p>
 
       <p class="swipe">Deslize o diagrama para o lado →</p>
       <div class="fig">
@@ -345,7 +345,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
           <text x="160" y="316" font-size="15" font-weight="500" fill="#0f1215">MCP23017</text>
           <text x="160" y="334" font-size="12.5" fill="#8a929b">16 saídas</text>
           <text x="440" y="316" font-size="15" font-weight="500" fill="#0f1215">PCF8574</text>
-          <text x="440" y="334" font-size="12.5" fill="#8a929b">sem uso hoje</text>
+          <text x="440" y="334" font-size="12.5" fill="#8a929b">botões, LEDs, modem</text>
           <text x="720" y="316" font-size="15" font-weight="500" fill="#0f1215">2 × ADS1115</text>
           <text x="720" y="334" font-size="12.5" fill="#8a929b">conversores A/D</text>
           <text x="160" y="401" font-size="14" fill="#0f1215">Saída 12</text>
@@ -362,7 +362,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
       <dl class="spec">
         <div><dt>Controlador</dt><dd>ESP32-S3</dd></div>
         <div><dt>Expansor de saídas</dt><dd>MCP23017 com 16 saídas, que no código comandam as válvulas. A saída 12 é o relé da bomba.</dd></div>
-        <div><dt>Expansor de solenoides</dt><dd>PCF8574 com 3 saídas de solenoide, herdado do hardware e firmware antigos. Hoje não tem uso, porque as válvulas passaram a ser acionadas por relés.</dd></div>
+        <div><dt>Expansor de E/S</dt><dd>PCF8574. Lê os botões de iniciar e parar, o botão rotativo, os sensores de nível e a chave de reciclagem, acende os LEDs de alarme, alerta e tratamento e liga o modem SIM7080. As 3 saídas de solenoide, herdadas do hardware antigo, só são acionadas no modo de teste e na inicialização.</dd></div>
         <div><dt>Conversores A/D</dt><dd>Dois ADS1115 que, juntos, leem 5 canais de pressão, a tensão da bateria e a tensão da bomba.</dd></div>
         <div><dt>Barramento</dt><dd>I²C (pelo datasheet, esses chips só têm I²C).</dd></div>
         <div><dt>Nuvem</dt><dd>Telemetria por MQTT para o ThingsBoard.</dd></div>
@@ -391,10 +391,10 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
       </ol>
 
       <h3>Religamento</h3>
-      <p>Não existe religamento automático da bomba. O tratamento volta pelo botão ou por comando remoto.</p>
+      <p>Não há religamento automático após o corte por pressão. O tratamento volta pelo botão, por comando remoto, pelo menu ou se o sensor de vazão detectar fluxo por mais de 30 s com o tratamento parado (caminho feito para o bombeamento manual).</p>
 
       <h3>Retrolavagem</h3>
-      <p>Na versão atual, a retrolavagem é verificada durante o tratamento. Os limites de pressão estão altos de propósito, enquanto as pressões altas do sistema não são resolvidas.</p>
+      <p>O código checa o diferencial de pressão de cada filtro durante o tratamento, contra um limite de 8 bar fixo no código. O limite está alto de propósito, enquanto as pressões altas do sistema não são resolvidas. Depois da lavagem, o firmware volta para o tratamento.</p>
     </div>
   </div>
 </section>
@@ -411,8 +411,8 @@ footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);f
       <p class="src">Medido</p>
       <dl class="spec">
         <div><dt>Protocolo</dt><dd>MQTT para o ThingsBoard</dd></div>
-        <div><dt>Versão</dt><dd>Em 29/09/2026, a máquina rodava a 1.0.2.</dd></div>
-        <div><dt>Código</dt><dd>Branch <a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.2"><code>campo-1.0.2</code></a></dd></div>
+        <div><dt>Versão</dt><dd>A máquina roda a 1.0.3 (confirmado em 07/10/2026).</dd></div>
+        <div><dt>Código</dt><dd>Branch <a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.3"><code>campo-1.0.3</code></a></dd></div>
       </dl>
     </div>
   </div>
