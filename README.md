@@ -71,4 +71,4 @@ Os repositórios públicos estão em [github.com/wara-tech](https://github.com/w
 
 ## Fotos
 
-As fotos ficam em [`fotos/`](fotos/): `painel.jpg`, `placa.jpg`, `sensores-pressao.jpg`, `valvulas.jpg`, `yara-inteira.jpg`, `thingsboard.jpg`. Enquanto um arquivo não existir, o `index.html` mostra um espaço cinza no lugar dele.
+As fotos ficam em [`fotos/`](fotos/): tela de operação no ThingsBoard, Yara montada, montagem em campo e painel de controle.
