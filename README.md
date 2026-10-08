@@ -63,12 +63,6 @@ Os repositórios públicos estão em [github.com/wara-tech](https://github.com/w
 - Cerca de 116 mil pontos por dia e 338 mensagens por hora (medido).
 - Em 29/09/2026, a máquina rodava a 1.0.2. O código dessa versão está na branch `campo-1.0.2`.
 
-## Onde queremos ajuda
-
-1. **Como fazer a bomba religar sozinha com segurança?** Hoje não existe religamento automático; o tratamento só volta pelo botão ou por comando remoto.
-2. **O que fazer depois que a proteção de pressão encerra o tratamento?** Quando a pressão continua alta na segunda checagem, o firmware encerra o tratamento, e a máquina só volta com ação manual ou remota.
-3. **Como colocar a dosadora de cloro e o medidor de parâmetros em operação?** Os dois estão instalados, mas nunca foram testados em campo.
-
 ## Fotos
 
 As fotos ficam em [`fotos/`](fotos/): tela de operação no ThingsBoard, Yara montada, montagem em campo e painel de controle.
