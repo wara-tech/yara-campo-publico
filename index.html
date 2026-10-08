@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yara Box, versão de campo · Wara Tech</title>
+<meta name="description" content="Controle, firmware, telemetria e lógica de automação da Yara Box, versão de campo.">
+<style>
+:root{
+  --bg:#fbfbfa; --paper:#ffffff; --ink:#0f1215; --ink2:#3a4148; --muted:#6b737c; --faint:#9aa1a9;
+  --line:#e8e9eb; --soft:#f3f4f5; --accent:#0d6e7a; --accent-soft:#eaf4f5;
+  --sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"cv11","ss01"}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+code{font-family:var(--mono);font-size:.88em;background:var(--soft);padding:.12em .4em;border-radius:5px;color:var(--ink)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 40px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:10;background:rgba(251,251,250,.82);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:32px;height:60px}
+.brand{font-weight:600;letter-spacing:-.01em;color:var(--ink);white-space:nowrap;font-size:15px}
+.brand span{color:var(--muted);font-weight:400;margin-left:6px}
+.top nav{display:flex;gap:26px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.top nav::-webkit-scrollbar{display:none}
+.top nav a{color:var(--muted);font-size:14px;white-space:nowrap}
+.top nav a:hover{color:var(--ink);text-decoration:none}
+
+/* hero */
+.hero{padding:128px 0 96px}
+.eyebrow{font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 20px}
+.hero h1{font-size:clamp(42px,6.6vw,80px);line-height:1.02;letter-spacing:-.04em;font-weight:600;margin:0 0 28px;max-width:16ch}
+.hero .lede{font-size:clamp(18px,2vw,21px);line-height:1.55;color:var(--ink2);max-width:46ch;margin:0}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;border-top:1px solid var(--line)}
+.facts div{padding:22px 24px 0 0}
+.facts b{display:block;font-weight:500;font-size:15px;color:var(--ink);letter-spacing:-.01em}
+.facts span{font-size:13.5px;color:var(--muted)}
+
+/* sections */
+section{border-top:1px solid var(--line);padding:96px 0;scroll-margin-top:60px}
+.sec{display:grid;grid-template-columns:250px minmax(0,1fr);gap:56px}
+.sec-head{position:sticky;top:100px;align-self:start}
+.sec-head .eyebrow{margin-bottom:12px}
+h2{font-size:30px;line-height:1.15;letter-spacing:-.025em;font-weight:600;margin:0}
+h3{font-size:17px;line-height:1.4;letter-spacing:-.01em;font-weight:600;margin:0 0 6px}
+.body > p, .prose{max-width:68ch;color:var(--ink2);margin:0 0 20px}
+.body > * + h3{margin-top:48px}
+.src{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin:0 0 28px}
+.src::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.7}
+
+/* callout */
+.callout{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin:0 0 20px;max-width:76ch}
+.callout p{margin:0;color:var(--ink2)}
+.callout h3{margin-bottom:8px}
+
+/* links list */
+.links{list-style:none;padding:0;margin:8px 0 0;counter-reset:l}
+.links li{display:grid;grid-template-columns:28px 1fr;padding:14px 0;border-top:1px solid var(--line);color:var(--ink2)}
+.links li:first-child{border-top:0}
+.links li::before{counter-increment:l;content:counter(l);font-family:var(--mono);font-size:13px;color:var(--faint);padding-top:2px}
+.links a{font-weight:500}
+
+/* spec list */
+.spec{margin:0 0 8px;border-top:1px solid var(--line)}
+.spec div{display:grid;grid-template-columns:190px 1fr;gap:24px;padding:16px 0;border-bottom:1px solid var(--line)}
+.spec dt{color:var(--muted);font-size:14.5px}
+.spec dd{margin:0;color:var(--ink)}
+
+/* table */
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:0 16px 12px 0;border-bottom:1px solid var(--line)}
+td{padding:13px 16px 13px 0;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
+td.n{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600;width:64px}
+td.g{color:var(--muted);font-size:14px;width:150px}
+
+/* figure */
+.fig{margin:8px 0 12px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:36px 28px 28px;overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto;min-width:680px}
+.swipe{display:none;font-size:12.5px;color:var(--faint);margin:0 0 8px}
+.figcap{font-size:13.5px;color:var(--muted);max-width:72ch;margin:12px 0 0}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);max-width:76ch}
+.steps li{display:grid;grid-template-columns:44px 1fr;padding:18px 0;border-bottom:1px solid var(--line);color:var(--ink2)}
+.steps li::before{content:attr(data-n);font-family:var(--mono);font-size:13px;color:var(--faint);padding-top:3px}
+.steps b{color:var(--ink);font-weight:600}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 36px}
+.stats > div{padding:28px 24px 28px 0}
+.stats > div + div{border-left:1px solid var(--line);padding-left:28px}
+.stat{font-size:44px;font-weight:600;letter-spacing:-.035em;line-height:1;color:var(--ink)}
+.stat-l{font-size:14px;color:var(--muted);margin-top:10px}
+
+/* photos */
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 24px}
+.photos figure{margin:0}
+.ph{position:relative;aspect-ratio:4/3;border-radius:12px;background:#eef0f2;overflow:hidden}
+.ph::after{content:"Foto";position:absolute;inset:auto auto 14px 16px;font-size:12px;color:var(--faint);letter-spacing:.04em}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.photos figcaption{font-size:13.5px;color:var(--ink2);margin-top:10px}
+
+/* help */
+.help{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+.help li{display:grid;grid-template-columns:56px 1fr;padding:30px 0;border-bottom:1px solid var(--line)}
+.help .k{font-family:var(--mono);font-size:13px;color:var(--faint);padding-top:4px}
+.help h3{font-size:20px;letter-spacing:-.015em;margin-bottom:10px;max-width:40ch}
+.help p{margin:0;color:var(--ink2);max-width:66ch}
+
+footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);font-size:13.5px}
+
+@media (max-width:980px){
+  .sec{grid-template-columns:minmax(0,1fr);gap:28px}
+  .sec-head{position:static}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .facts div{padding-bottom:20px}
+  .photos{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 22px}
+  .top .wrap{gap:18px}
+  .brand span{display:none}
+  .top nav{gap:18px}
+  .hero{padding:72px 0 64px}
+  .hero h1{margin-bottom:20px}
+  .facts{margin-top:48px}
+  section{padding:64px 0}
+  h2{font-size:26px}
+  .spec div{grid-template-columns:1fr;gap:2px}
+  .stats{grid-template-columns:1fr}
+  .stats > div + div{border-left:0;border-top:1px solid var(--line);padding-left:0}
+  .stat{font-size:38px}
+  .photos{grid-template-columns:repeat(2,1fr);gap:20px 14px}
+  .photos figcaption{font-size:12.5px}
+  .fig{padding:24px 16px 16px;border-radius:14px;margin-left:-6px;margin-right:-6px}
+  .swipe{display:block}
+  .top nav{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  td.g,th.g{display:none}
+  .help li{grid-template-columns:40px 1fr}
+  .help h3{font-size:18px}
+  .callout{padding:20px}
+}
+@media print{.top{position:static}.sec-head{position:static}section{break-inside:avoid-page}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#">Yara Box<span>versão de campo</span></a>
+    <nav aria-label="Seções">
+      <a href="#inicio">Início</a>
+      <a href="#hidraulica">Hidráulica</a>
+      <a href="#arquitetura">Arquitetura</a>
+      <a href="#logica">Lógica</a>
+      <a href="#telemetria">Telemetria</a>
+      <a href="#fotos">Fotos</a>
+      <a href="#ajuda">Onde queremos ajuda</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Wara Tech · Documento técnico</p>
+    <h1>Yara Box,<br>versão de campo</h1>
+    <p class="lede">Controle, firmware, telemetria e lógica de automação da estação de tratamento de água da Wara Tech, na versão instalada em campo.</p>
+    <div class="facts">
+      <div><b>ESP32-S3</b><span>controlador</span></div>
+      <div><b>I²C</b><span>MCP23017 · PCF8574 · 2 × ADS1115</span></div>
+      <div><b>MQTT → ThingsBoard</b><span>telemetria</span></div>
+      <div><b>12 válvulas motorizadas</b><span>duas linhas em paralelo</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Início -->
+<section id="inicio">
+  <div class="wrap sec">
+    <div class="sec-head"><p class="eyebrow">Antes de começar</p><h2>Contexto e repositórios</h2></div>
+    <div class="body">
+      <div class="callout">
+        <h3>Sobre o manual antigo</h3>
+        <p>Existe um manual público em <a href="https://yarabox.com.br/manual">yarabox.com.br/manual</a> que descreve a versão compacta anterior da Yara (540 L/h, bomba 12 V). Ele ajuda a entender a lógica de placa e de firmware, mas não descreve a máquina de campo. Este documento descreve a máquina de campo.</p>
+      </div>
+      <div class="callout">
+        <h3>Por onde começar no GitHub</h3>
+        <p>Os repositórios públicos estão em <a href="https://github.com/wara-tech">github.com/wara-tech</a>. Sugerimos esta ordem:</p>
+        <ol class="links">
+          <li><span><a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.2">Yara_Firmware-publico, branch campo-1.0.2</a>: código da versão 1.0.2.</span></li>
+          <li><span><a href="https://github.com/wara-tech/YB-projeto-eletrico-publico">YB-projeto-eletrico-publico</a>: projeto elétrico.</span></li>
+          <li><span><a href="https://github.com/wara-tech/YB-dashboard-thingsboard-publico">YB-dashboard-thingsboard-publico</a>: painel no ThingsBoard.</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hidráulica -->
+<section id="hidraulica">
+  <div class="wrap sec">
+    <div class="sec-head"><p class="eyebrow">Contexto</p><h2>Hidráulica</h2></div>
+    <div class="body">
+      <p>A água entra por uma bomba e segue por duas linhas em paralelo, cada uma com um pré-filtro e uma ultrafiltração (UF). As duas se juntam e vão direto ao ponto de consumo, um bebedouro com boia, sem reservatório intermediário. Na última montagem, uma das linhas trocou o filtro de mídia por um filtro de disco. A rede elétrica no local é de 220 V.</p>
+      <p class="src">Informado pelo dono do produto</p>
+
+      <p class="swipe">Deslize o diagrama para o lado →</p>
+      <div class="fig">
+      <svg viewBox="0 0 880 396" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama hidráulico: duas linhas em paralelo com as válvulas numeradas" font-family="Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">
+        <defs>
+          <marker id="h-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#9aa3ad" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        </defs>
+        <!-- tubulação -->
+        <g fill="none" stroke="#a7aeb6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M120,200 H150 V110 H218" marker-end="url(#h-ar)"/>
+          <path d="M150,200 V290 H218" marker-end="url(#h-ar)"/>
+          <path d="M350,110 H418" marker-end="url(#h-ar)"/>
+          <path d="M350,290 H418" marker-end="url(#h-ar)"/>
+          <path d="M385,110 V290"/>
+          <path d="M540,110 H620 V200"/>
+          <path d="M540,290 H620 V200"/>
+          <path d="M620,200 H698" marker-end="url(#h-ar)"/>
+          <path d="M285,86 V34"/><path d="M480,86 V34"/>
+          <path d="M285,314 V366"/><path d="M480,314 V366"/>
+        </g>
+        <!-- blocos -->
+        <g stroke-width="1.25">
+          <rect x="20" y="176" width="100" height="48" rx="10" fill="#f6f7f8" stroke="#d5d9de"/>
+          <rect x="220" y="86" width="130" height="48" rx="10" fill="#fff" stroke="#c9ced4"/>
+          <rect x="220" y="266" width="130" height="48" rx="10" fill="#fff" stroke="#c9ced4"/>
+          <rect x="420" y="86" width="120" height="48" rx="10" fill="#fff" stroke="#c9ced4"/>
+          <rect x="420" y="266" width="120" height="48" rx="10" fill="#fff" stroke="#c9ced4"/>
+          <rect x="700" y="176" width="160" height="48" rx="10" fill="#eaf4f5" stroke="#0d6e7a"/>
+        </g>
+        <g font-size="15" font-weight="500" fill="#0f1215" text-anchor="middle">
+          <text x="70" y="198">Entrada</text><text x="70" y="215" font-size="12" font-weight="400" fill="#5b636c">e bomba</text>
+          <text x="285" y="115">Pré-filtro 1</text>
+          <text x="285" y="295">Pré-filtro 2</text>
+          <text x="480" y="115">UF 1</text>
+          <text x="480" y="295">UF 2</text>
+          <text x="780" y="205" fill="#0d6e7a">Ponto de consumo</text>
+        </g>
+        <g font-size="12.5" fill="#8a929b" text-anchor="middle" letter-spacing=".04em">
+          <text x="285" y="22">ESGOTO</text><text x="480" y="22">ESGOTO</text>
+          <text x="285" y="386">ESGOTO</text><text x="480" y="386">ESGOTO</text>
+          <text x="780" y="246">bebedouro com boia</text>
+        </g>
+        <!-- válvulas -->
+        <g font-size="12" font-weight="600" text-anchor="middle" font-family="ui-monospace,SF Mono,Menlo,Consolas,monospace">
+          <g fill="#fff" stroke="#0d6e7a" stroke-width="1.25">
+            <circle cx="184" cy="110" r="13"/><circle cx="184" cy="290" r="13"/>
+            <circle cx="285" cy="58" r="13"/><circle cx="285" cy="342" r="13"/>
+            <circle cx="385" cy="200" r="13"/>
+            <circle cx="480" cy="58" r="13"/><circle cx="480" cy="342" r="13"/>
+            <circle cx="580" cy="110" r="13"/><circle cx="580" cy="290" r="13"/>
+            <circle cx="660" cy="200" r="13"/>
+          </g>
+          <g fill="#0d6e7a">
+            <text x="184" y="114">5</text><text x="184" y="294">6</text>
+            <text x="285" y="62">13</text><text x="285" y="346">15</text>
+            <text x="385" y="204">8</text>
+            <text x="480" y="62">4</text><text x="480" y="346">7</text>
+            <text x="580" y="114">2</text><text x="580" y="294">9</text>
+            <text x="660" y="204">0</text>
+          </g>
+        </g>
+      </svg>
+      </div>
+      <p class="figcap">Os números são as válvulas motorizadas. As válvulas 3 (bypass) e 11 (retorno do concentrado das UFs para a linha) estão só na tabela abaixo, porque o ponto exato de ligação delas não está descrito aqui.</p>
+
+      <h3>As 12 válvulas motorizadas</h3>
+      <table>
+        <thead><tr><th>Válvula</th><th>Função</th><th class="g">Grupo</th></tr></thead>
+        <tbody>
+          <tr><td class="n">0</td><td>Saída para o ponto de consumo</td><td class="g">Saída</td></tr>
+          <tr><td class="n">5</td><td>Entrada da mídia 1</td><td class="g">Linha 1</td></tr>
+          <tr><td class="n">13</td><td>Esgoto da mídia 1</td><td class="g">Linha 1</td></tr>
+          <tr><td class="n">4</td><td>Esgoto da UF1</td><td class="g">Linha 1</td></tr>
+          <tr><td class="n">2</td><td>Saída da UF1</td><td class="g">Linha 1</td></tr>
+          <tr><td class="n">6</td><td>Entrada da mídia 2</td><td class="g">Linha 2</td></tr>
+          <tr><td class="n">15</td><td>Esgoto da mídia 2</td><td class="g">Linha 2</td></tr>
+          <tr><td class="n">7</td><td>Esgoto da UF2</td><td class="g">Linha 2</td></tr>
+          <tr><td class="n">9</td><td>Saída da UF2</td><td class="g">Linha 2</td></tr>
+          <tr><td class="n">8</td><td>Interliga as duas linhas depois das mídias</td><td class="g">Entre linhas</td></tr>
+          <tr><td class="n">11</td><td>Retorno do concentrado das UFs para a linha</td><td class="g">Entre linhas</td></tr>
+          <tr><td class="n">3</td><td>Bypass</td><td class="g">Bypass</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Dosagem e medição</h3>
+      <p>A dosadora de cloro e o medidor de parâmetros da água estão instalados, mas nunca foram testados em campo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Arquitetura -->
+<section id="arquitetura">
+  <div class="wrap sec">
+    <div class="sec-head"><p class="eyebrow">Hardware de controle</p><h2>Arquitetura</h2></div>
+    <div class="body">
+      <p>Um ESP32-S3 conversa por I²C com os expansores de saída e com os conversores analógico-digitais, e envia a telemetria por MQTT para o ThingsBoard.</p>
+      <p class="src">Lido no código da 1.0.2 e da main. I²C pelo datasheet: esses chips só têm interface I²C.</p>
+
+      <p class="swipe">Deslize o diagrama para o lado →</p>
+      <div class="fig">
+      <svg viewBox="0 0 880 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de blocos do controle" font-family="Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">
+        <defs>
+          <marker id="a-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#9aa3ad" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        </defs>
+        <g fill="none" stroke="#a7aeb6" stroke-width="1.5" stroke-linecap="round">
+          <path d="M440,140 V80" marker-end="url(#a-ar)"/>
+          <path d="M440,204 V250"/>
+          <path d="M160,250 H720" stroke-width="2"/>
+          <path d="M160,250 V290"/><path d="M440,250 V290"/><path d="M720,250 V290"/>
+          <path d="M160,346 V374" marker-end="url(#a-ar)"/>
+          <path d="M440,346 V374" marker-end="url(#a-ar)"/>
+          <path d="M720,376 V348" marker-end="url(#a-ar)"/>
+        </g>
+        <g stroke-width="1.25">
+          <rect x="340" y="20" width="200" height="56" rx="12" fill="#f6f7f8" stroke="#d5d9de"/>
+          <rect x="330" y="140" width="220" height="64" rx="12" fill="#eaf4f5" stroke="#0d6e7a"/>
+          <rect x="60" y="290" width="200" height="56" rx="12" fill="#fff" stroke="#c9ced4"/>
+          <rect x="340" y="290" width="200" height="56" rx="12" fill="#fff" stroke="#c9ced4"/>
+          <rect x="620" y="290" width="200" height="56" rx="12" fill="#fff" stroke="#c9ced4"/>
+          <rect x="60" y="376" width="200" height="56" rx="12" fill="#f6f7f8" stroke="#e1e4e8"/>
+          <rect x="340" y="376" width="200" height="56" rx="12" fill="#f6f7f8" stroke="#e1e4e8"/>
+          <rect x="620" y="376" width="200" height="56" rx="12" fill="#f6f7f8" stroke="#e1e4e8"/>
+        </g>
+        <g text-anchor="middle">
+          <text x="440" y="46" font-size="15" font-weight="500" fill="#0f1215">ThingsBoard</text>
+          <text x="440" y="64" font-size="12.5" fill="#8a929b">nuvem</text>
+          <text x="452" y="114" font-size="12.5" fill="#6b737c" text-anchor="start">MQTT · telemetria</text>
+          <text x="440" y="170" font-size="16" font-weight="600" fill="#0d6e7a">ESP32-S3</text>
+          <text x="440" y="190" font-size="12.5" fill="#4d6f74">controlador</text>
+          <text x="740" y="240" font-size="12.5" fill="#8a929b" text-anchor="end" letter-spacing=".04em">BARRAMENTO I²C</text>
+          <text x="160" y="316" font-size="15" font-weight="500" fill="#0f1215">MCP23017</text>
+          <text x="160" y="334" font-size="12.5" fill="#8a929b">16 saídas</text>
+          <text x="440" y="316" font-size="15" font-weight="500" fill="#0f1215">PCF8574</text>
+          <text x="440" y="334" font-size="12.5" fill="#8a929b">3 saídas</text>
+          <text x="720" y="316" font-size="15" font-weight="500" fill="#0f1215">2 × ADS1115</text>
+          <text x="720" y="334" font-size="12.5" fill="#8a929b">conversores A/D</text>
+          <text x="160" y="401" font-size="14" fill="#0f1215">Saída 12</text>
+          <text x="160" y="419" font-size="12.5" fill="#6b737c">relé da bomba</text>
+          <text x="440" y="401" font-size="14" fill="#0f1215">3 solenoides</text>
+          <text x="440" y="419" font-size="12.5" fill="#6b737c">saídas de solenoide</text>
+          <text x="720" y="401" font-size="14" fill="#0f1215">5 canais de pressão</text>
+          <text x="720" y="419" font-size="12.5" fill="#6b737c">tensão da bateria e da bomba</text>
+        </g>
+      </svg>
+      </div>
+
+      <h3>Componentes</h3>
+      <dl class="spec">
+        <div><dt>Controlador</dt><dd>ESP32-S3</dd></div>
+        <div><dt>Expansor de saídas</dt><dd>MCP23017 com 16 saídas, que no código comandam as válvulas. A saída 12 é o relé da bomba.</dd></div>
+        <div><dt>Expansor de solenoides</dt><dd>PCF8574 com 3 saídas de solenoide.</dd></div>
+        <div><dt>Conversores A/D</dt><dd>Dois ADS1115 que, juntos, leem 5 canais de pressão, a tensão da bateria e a tensão da bomba.</dd></div>
+        <div><dt>Barramento</dt><dd>I²C (pelo datasheet, esses chips só têm I²C).</dd></div>
+        <div><dt>Nuvem</dt><dd>Telemetria por MQTT para o ThingsBoard.</dd></div>
+        <div><dt>Rede elétrica</dt><dd>220 V no local de instalação</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Lógica -->
+<section id="logica">
+  <div class="wrap sec">
+    <div class="sec-head"><p class="eyebrow">Firmware</p><h2>Lógica de automação</h2></div>
+    <div class="body">
+      <p class="src">Lido no código</p>
+
+      <h3 style="margin-top:0">Intertravamento das válvulas</h3>
+      <p>A bomba só liga se as válvulas abertas formarem uma das combinações cadastradas.</p>
+
+      <h3>Proteção de pressão</h3>
+      <ol class="steps">
+        <li data-n="01"><span>A bomba desliga na hora quando qualquer sensor passa do limite configurável <code>estado_muito_alto</code>, que fica gravado na placa.</span></li>
+        <li data-n="02"><span>Depois do corte, o firmware reabre as válvulas e espera 15 s.</span></li>
+        <li data-n="03"><span>Confere a pressão de novo, agora com um limite fixo de <b>3 bar</b>.</span></li>
+        <li data-n="04"><span>Se a pressão continuar alta, <b>encerra o tratamento</b>.</span></li>
+      </ol>
+
+      <h3>Religamento</h3>
+      <p>Não existe religamento automático da bomba. O tratamento volta pelo botão ou por comando remoto.</p>
+
+      <h3>Retrolavagem (versão 1.0.2)</h3>
+      <p>Dispara quando o diferencial de pressão passa de 1 bar, e só é checada com a máquina parada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Telemetria -->
+<section id="telemetria">
+  <div class="wrap sec">
+    <div class="sec-head"><p class="eyebrow">IoT</p><h2>Telemetria e versão</h2></div>
+    <div class="body">
+      <div class="stats">
+        <div><div class="stat">~116 mil</div><div class="stat-l">pontos de telemetria por dia</div></div>
+        <div><div class="stat">338</div><div class="stat-l">mensagens MQTT por hora</div></div>
+      </div>
+      <p class="src">Medido</p>
+      <dl class="spec">
+        <div><dt>Protocolo</dt><dd>MQTT para o ThingsBoard</dd></div>
+        <div><dt>Versão</dt><dd>Em 29/09/2026, a máquina rodava a 1.0.2.</dd></div>
+        <div><dt>Código</dt><dd>Branch <a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.2"><code>campo-1.0.2</code></a></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Fotos -->
+<section id="fotos">
+  <div class="wrap sec">
+    <div class="sec-head"><p class="eyebrow">Registro</p><h2>Fotos</h2></div>
+    <div class="body">
+      <div class="photos">
+        <figure>
+          <!-- TROCAR FOTO: coloque o arquivo em fotos/painel.jpg -->
+          <div class="ph"><img src="fotos/painel.jpg" alt="Painel elétrico aberto" onerror="this.remove()"></div>
+          <figcaption>Painel elétrico aberto</figcaption>
+        </figure>
+        <figure>
+          <!-- TROCAR FOTO: coloque o arquivo em fotos/placa.jpg -->
+          <div class="ph"><img src="fotos/placa.jpg" alt="Placa do controlador (ESP32-S3 e expansores)" onerror="this.remove()"></div>
+          <figcaption>Placa do controlador (ESP32-S3 e expansores)</figcaption>
+        </figure>
+        <figure>
+          <!-- TROCAR FOTO: coloque o arquivo em fotos/sensores-pressao.jpg -->
+          <div class="ph"><img src="fotos/sensores-pressao.jpg" alt="Sensores de pressão instalados" onerror="this.remove()"></div>
+          <figcaption>Sensores de pressão instalados</figcaption>
+        </figure>
+        <figure>
+          <!-- TROCAR FOTO: coloque o arquivo em fotos/valvulas.jpg -->
+          <div class="ph"><img src="fotos/valvulas.jpg" alt="Válvulas motorizadas e atuadores" onerror="this.remove()"></div>
+          <figcaption>Válvulas motorizadas e atuadores</figcaption>
+        </figure>
+        <figure>
+          <!-- TROCAR FOTO: coloque o arquivo em fotos/yara-inteira.jpg -->
+          <div class="ph"><img src="fotos/yara-inteira.jpg" alt="Yara montada inteira" onerror="this.remove()"></div>
+          <figcaption>Yara montada inteira</figcaption>
+        </figure>
+        <figure>
+          <!-- TROCAR FOTO: coloque o arquivo em fotos/thingsboard.jpg (sem dados de acesso visíveis na captura) -->
+          <div class="ph"><img src="fotos/thingsboard.jpg" alt="Tela do ThingsBoard" onerror="this.remove()"></div>
+          <figcaption>Tela do ThingsBoard</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ajuda -->
+<section id="ajuda">
+  <div class="wrap sec">
+    <div class="sec-head"><p class="eyebrow">Para o especialista</p><h2>Onde queremos ajuda</h2></div>
+    <div class="body">
+      <ol class="help">
+        <li><span class="k">01</span><div>
+          <h3>Como fazer a bomba religar sozinha com segurança?</h3>
+          <p>Hoje não existe religamento automático da bomba. O tratamento só volta pelo botão ou por comando remoto.</p>
+        </div></li>
+        <li><span class="k">02</span><div>
+          <h3>O que fazer depois que a proteção de pressão encerra o tratamento?</h3>
+          <p>Quando a pressão continua alta na segunda checagem, o firmware encerra o tratamento, e a máquina só volta com ação manual ou remota.</p>
+        </div></li>
+        <li><span class="k">03</span><div>
+          <h3>Como colocar a dosadora de cloro e o medidor de parâmetros em operação?</h3>
+          <p>Os dois estão instalados, mas nunca foram testados em campo.</p>
+        </div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Yara Box · Wara Tech. Documento técnico da versão de campo.</div>
+</footer>
+</body>
+</html>
