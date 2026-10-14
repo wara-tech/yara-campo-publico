@@ -1,48 +1,345 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Yara · Hidráulica · Wara Tech</title>
-<meta name="description" content="Documento de produto da Yara. A página de hidráulica ainda será escrita.">
-<link rel="stylesheet" href="estilo.css">
-</head>
-<body>
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="index.html">Yara <span>produto</span></a>
-    <nav>
-      <a href="index.html"><i>01</i>Geral</a>
-      <a class="on" href="hidraulica.html"><i>02</i>Hidráulica</a>
-      <a href="eletrica.html"><i>03</i>Elétrica</a>
-      <a href="firmware.html"><i>04</i>Firmware</a>
-    </nav>
-  </div>
-</header>
-<main>
-  <div class="wrap hero">
-    <p class="eyebrow">Wara Tech · documento de produto</p>
-    <h1>Hidráulica</h1>
-    <p class="lede">Esta página entra depois. O processo hidráulico será escrito à parte. As válvulas que o firmware comanda estão na página de firmware, com o índice de cada saída.</p>
-    <div class="facts">
-      <div><b>Página reservada</b><span>o texto ainda não está aqui</span></div>
-      <div><b>Processo</b><span>será descrito nesta página</span></div>
-      <div><b>Válvulas no código</b><span>página de firmware</span></div>
-      <div><b>Material já publicado</b><span>não é esta página</span></div>
-    </div>
-  </div>
-  <section>
-    <div class="wrap sec">
-      <div class="sec-head"><p class="eyebrow">Enquanto isso</p><h2>Onde ler hoje</h2></div>
-      <div class="body">
-        <p>Há um documento público de hidráulica em <a href="https://wara-tech.github.io/yara-hidraulica-publico/">yara-hidraulica-publico</a>. Ele não é esta página. Quando o texto de hidráulica deste produto for escrito, ele entra aqui.</p>
-        <p class="src">Placeholder. Nada nesta página é especificação nova.</p>
-      </div>
-    </div>
-  </section>
-</main>
-<footer>
-  <div class="wrap"><p>Yara · Wara Tech. Documento de produto. A página de hidráulica está reservada.</p></div>
-</footer>
-</body>
-</html>
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yara: Hidráulica · Wara Tech</title><link rel="stylesheet" href="estilo.css"></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="geral.html">Yara<span>doc de produto</span></a><nav class="pages" aria-label="Páginas"><a href="geral.html"><i>01</i>Geral</a><a href="hidraulica.html" class="cur" aria-current="page"><i>02</i>Hidráulica</a><a href="eletrica.html"><i>03</i>Elétrica</a><a href="firmware.html"><i>04</i>Firmware</a></nav></div></header>
+<div class="subnav"><div class="wrap"><a href="#config">01 Configurações</a><a href="#componentes">02 Componentes</a><a href="#lavagem">03 Lavagem das UFs</a><a href="#campo">04 Campo</a><a href="#divergencias">05 Divergências</a><a href="#duvidas">06 Dúvidas</a><a href="#fontes">07 Fontes</a></div></div>
+<main id="topo"><div class="hero"><div class="wrap"><p class="eyebrow">Wara Tech · Doc de produto · Hidráulica</p><h1>Yara: hidráulica e processo</h1><p class="lede">As linhas, os componentes e a lavagem das UFs da Yara, o que aconteceu no campo, as divergências entre fontes e o que segue em aberto. Pressão de corte, sensores, elétrica e firmware estão nas páginas Elétrica e Firmware.</p><div class="facts"><div><b>2 linhas</b><span>que se alternam, uma limpa a outra</span></div><div><b>Pré-filtro + UF</b><span>em cada linha</span></div><div><b>Direto ao bebedouro</b><span>com boia, sem tanque</span></div><div><b>Trem do piloto</b><span>a definir com o Gabriel Poydo</span></div></div><div class="guide"><div class="box"><h3>Nesta página</h3><ol><li><a href="#config">Três configurações</a></li><li><a href="#componentes">Componentes</a></li><li><a href="#lavagem">Lavagem das UFs</a></li><li><a href="#campo">Campo</a></li><li><a href="#divergencias">Divergências</a></li><li><a href="#duvidas">Dúvidas em aberto</a></li><li><a href="#fontes">Fontes</a></li></ol></div><div class="box"><h3>Como ler os dados</h3><div class="legend">
+<span class="tag t-med">Medido</span><span>Valor medido, com laudo ou método registrado.</span>
+<span class="tag t-apx">Aproximado</span><span>Valor com “~” na fonte, sem método registrado.</span>
+<span class="tag t-apx">Estimativa</span><span>Cálculo nosso a partir de premissas; não medido.</span>
+<span class="tag t-rel">Relato</span><span>Observação ou registro da equipe.</span>
+<span class="tag t-fab">Fabricante</span><span>Etiqueta, catálogo ou nota fiscal; não medido na máquina.</span>
+<span class="tag t-nd">Desconhecido</span><span>Dado que nenhuma fonte tem.</span>
+<span class="tag t-apx">A confirmar</span><span>Registro ainda não verificado.</span>
+<span class="tag t-div">Divergência</span><span>Fontes dizem coisas diferentes. Mostramos as versões, sem escolher.</span></div></div></div></div></div><section id="config"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>01</b>Configurações</p><h2>Três configurações</h2><p class="q">A montagem original, a de hoje e a do piloto.</p></div><div class="body">
+<p class="lead">A água passa por uma bomba e segue por duas linhas em paralelo, cada uma com pré-filtro e UF. As duas linhas se alternam, para uma poder limpar a outra. A água tratada vai direto ao bebedouro com boia, sem reservatório intermediário.</p>
+<div class="cfg3">
+<div class="card"><p class="eyebrow">Configuração 1</p><h3>Montagem original (projeto)</h3><p>Duas linhas iguais, cada uma com filtro de mídia e UF. Tanque de cloro com bomba 2 dosando no misturador antes do bebedouro.</p></div>
+<div class="card"><p class="eyebrow">Configuração 2 · hoje</p><h3>Montagem de 03/10/2026</h3><p><b>Linha 1:</b> disco + UF.<br><b>Linha 2:</b> mídia + válvula de 3 vias + disco + UF.<br>Válvula de retenção de 3/4" na entrada, uma para as duas linhas.</p><p style="margin-top:8px"><b>Nota:</b> Essa configuração vai ser alterada para o piloto, de acordo com as recomendações do consultor de tratamento de água (Gabriel Poydo). Fonte: Rodrigo, 14/10/2026.</p></div>
+<div class="card"><p class="eyebrow">Configuração 3 · piloto</p><h3>Trem do piloto</h3><p>A definir com o Gabriel Poydo.</p><p style="margin-top:8px"><span class="tag t-nd">A definir</span></p></div></div>
+<div class="fig-h"><h3>Configuração 1 · Montagem original (projeto)</h3><span><a class="dref" href="#d2">D2</a> <a class="dref" href="#d3">D3</a></span></div>
+<p class="swipe">Deslize o diagrama para o lado →</p><div class="fig"><svg aria-label="Montagem original (projeto) da Yara, só a parte hidráulica, da esquerda para a direita: captação, filtro da bomba, bomba 1, linha 1 e linha 2, que se alternam, com entrada, filtro de mídia, dreno de mídia, interligação, filtro UF, saída, descarte da UF e retorno à sucção; bypass, saída tratada, misturador com tanque de cloro e bomba 2, e bebedouro" font-family="InterDoc,Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif" role="img" viewbox="0 0 1180 520" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="o-ar" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="5" viewbox="0 0 10 10"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#8f98a2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></marker></defs>
+<g fill="none" stroke="#a7aeb6" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"><path d="M116,230 H138" marker-end="url(#o-ar)"></path><path d="M240,230 H278" marker-end="url(#o-ar)"></path><path d="M320,230 H345 V130 H398" marker-end="url(#o-ar)"></path><path d="M345,230 V340 H398" marker-end="url(#o-ar)"></path><path d="M530,130 H608" marker-end="url(#o-ar)"></path><path d="M740,130 H810 V230"></path><path d="M465,154 V200"></path><path d="M530,340 H608" marker-end="url(#o-ar)"></path><path d="M740,340 H810 V230"></path><path d="M465,364 V410"></path><path d="M570,130 V340"></path><path d="M810,230 H903" marker-end="url(#o-ar)"></path><path d="M262,230 V30 H1015 V230"></path><path d="M995,230 H1033" marker-end="url(#o-ar)"></path><path d="M880,390 V348"></path><path d="M880,314 V232" marker-end="url(#o-ar)"></path><path d="M675,364 V470 H262 V234" marker-end="url(#o-ar)"></path><path d="M675,410 H638"></path></g>
+<g fill="none" stroke="#c9ced4" stroke-dasharray="4 4" stroke-linecap="round" stroke-width="1.4"><path d="M675,106 V66"></path><path d="M638,410 H612"></path><path d="M465,200 V212"></path><path d="M465,410 V422"></path></g>
+<g stroke-width="1.25"><rect fill="#f6f7f8" height="52" rx="10" stroke="#d5d9de" width="100" x="16" y="204"></rect><rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="100" x="140" y="206"></rect><rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="130" x="400" y="106"></rect><rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="130" x="400" y="316"></rect><rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="130" x="610" y="106"></rect><rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="130" x="610" y="316"></rect><rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="90" x="905" y="206"></rect><rect fill="#f6f7f8" height="52" rx="10" stroke="#d5d9de" width="110" x="825" y="390"></rect><rect fill="#eaf4f5" height="52" rx="10" stroke="#0d6e7a" width="130" x="1035" y="204"></rect></g><path d="M920,248 l8,-10 l8,20 l8,-20 l8,20 l8,-20 l8,10" fill="none" stroke="#8f98a2" stroke-width="1.2"></path><g fill="#fff" stroke="#0d6e7a" stroke-width="1.3"><circle cx="300" cy="230" r="20"></circle><path d="M292,219 L311,230 L292,241 Z" fill="#eaf4f5"></path><circle cx="880" cy="331" r="16"></circle><path d="M874,323 L888,331 L874,339 Z" fill="#eaf4f5"></path></g>
+<g fill="#fff" stroke="#0d6e7a" stroke-width="1.3"><path d="M366,123 L384,137 L384,123 L366,137 Z"></path><path d="M366,333 L384,347 L384,333 L366,347 Z"></path><path d="M761,123 L779,137 L779,123 L761,137 Z"></path><path d="M761,333 L779,347 L779,333 L761,347 Z"></path><path d="M563,226 L577,244 L563,244 L577,226 Z"></path><path d="M458,168 L472,186 L458,186 L472,168 Z"></path><path d="M458,378 L472,396 L458,396 L472,378 Z"></path><path d="M631,23 L649,37 L649,23 L631,37 Z"></path><path d="M836,223 L854,237 L854,223 L836,237 Z"></path><path d="M461,463 L479,477 L479,463 L461,477 Z"></path></g>
+<g font-size="11" font-weight="600" letter-spacing=".08em"><text fill="#0d6e7a" x="400" y="84">LINHA 1</text><text fill="#0d6e7a" x="400" y="294">LINHA 2</text></g><text fill="#0f1215" font-size="14.5" font-weight="500" text-anchor="middle" x="66" y="227">Captação</text><text fill="#6b737c" font-size="11.5" text-anchor="middle" x="66" y="244">poço/açude/rio</text><text fill="#0f1215" font-size="14" font-weight="500" text-anchor="middle" x="190" y="227">Filtro</text><text fill="#6b737c" font-size="11.5" text-anchor="middle" x="190" y="243">da bomba</text><text fill="#0f1215" font-size="13.5" font-weight="500" text-anchor="middle" x="300" y="276">Bomba 1</text><text fill="#4d5560" font-size="12" font-weight="400" text-anchor="middle" x="375" y="114">Entrada 1</text><text fill="#4d5560" font-size="12" font-weight="400" text-anchor="middle" x="375" y="324">Entrada 2</text><text fill="#0f1215" font-size="13.5" font-weight="500" text-anchor="middle" x="465" y="135">Filtro de mídia 1</text><text fill="#0f1215" font-size="13.5" font-weight="500" text-anchor="middle" x="465" y="345">Filtro de mídia 2</text><text fill="#0f1215" font-size="13.5" font-weight="500" text-anchor="middle" x="675" y="135">Filtro UF 1</text><text fill="#0f1215" font-size="13.5" font-weight="500" text-anchor="middle" x="675" y="345">Filtro UF 2</text><text fill="#4d5560" font-size="12" font-weight="400" text-anchor="middle" x="770" y="114">Saída 1</text><text fill="#4d5560" font-size="12" font-weight="400" text-anchor="middle" x="770" y="324">Saída 2</text><text fill="#6b737c" font-size="11.5" text-anchor="start" x="478" y="181">dreno de mídia 1</text><text fill="#6b737c" font-size="11.5" text-anchor="start" x="478" y="391">dreno de mídia 2</text><text fill="#6b737c" font-size="11.5" text-anchor="middle" x="465" y="227">descarte</text><text fill="#6b737c" font-size="11.5" text-anchor="middle" x="465" y="437">descarte</text><text fill="#6b737c" font-size="11.5" text-anchor="start" x="580" y="239">interligação</text><text fill="#6b737c" font-size="11.5" text-anchor="start" x="683" y="62">descarte da UF 1</text><text fill="#6b737c" font-size="11.5" text-anchor="end" x="606" y="414">descarte da UF 2</text><text fill="#4d5560" font-size="12" font-weight="400" text-anchor="middle" x="640" y="18">Bypass</text><text fill="#4d5560" font-size="12" font-weight="400" text-anchor="middle" x="845" y="212">Saída tratada</text><text fill="#4d5560" font-size="12" font-weight="400" text-anchor="middle" x="470" y="494">Retorno</text><text fill="#6b737c" font-size="11.5" text-anchor="middle" x="470" y="510">de volta à sucção da bomba 1</text><text fill="#0f1215" font-size="13.5" font-weight="500" text-anchor="middle" x="950" y="235">Misturador</text><text fill="#0f1215" font-size="13.5" font-weight="500" text-anchor="middle" x="880" y="420">Tanque de cloro</text><text fill="#0f1215" font-size="12.5" font-weight="500" text-anchor="start" x="910" y="335">Bomba 2</text><text fill="#6b737c" font-size="11.5" text-anchor="start" x="910" y="350">dosagem de cloro</text><text fill="#0d6e7a" font-size="14.5" font-weight="600" text-anchor="middle" x="1100" y="234">Bebedouro</text>
+</svg></div>
+<p class="figcap">Redesenhada por nós a partir do esquema de processo fornecido pelo David. Só a parte hidráulica: captação, filtro da bomba e bomba 1; duas linhas que se alternam, cada uma com entrada, filtro de mídia (com dreno), filtro UF (com descarte) e saída, ligadas por uma interligação; retorno à sucção da bomba 1; bypass; saída tratada, misturador com tanque de cloro e bomba 2, e bebedouro. Não representa a máquina hoje. Divergências: <a class="dref" href="#d2">D2</a> <a class="dref" href="#d3">D3</a>.</p>
+<div class="fig-h" style="margin-top:44px"><h3>Configuração 2 · Hoje (montagem de 03/10/2026)</h3><span><span class="tag t-rel">Relato</span></span></div>
+<div class="callout"><p class="callout-h">Nota</p><p>Esta é a Yara como está instalada na fazenda. Essa configuração vai ser alterada para o piloto, de acordo com as recomendações do consultor de tratamento de água (Gabriel Poydo). Fonte: Rodrigo, 14/10/2026.</p></div><p class="swipe">Deslize o diagrama para o lado →</p><div class="fig"><svg aria-label='Fluxo hidráulico da Yara montado em 03/10/2026: válvula de retenção de 3/4" entre a bomba e a bifurcação, uma para as duas linhas; linha 1 com filtro de disco e UF; linha 2 com filtro de mídia, válvula de 3 vias, filtro de disco e UF' font-family="InterDoc,Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif" role="img" viewbox="0 0 1120 446" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="b-ar" markerheight="6" markerwidth="6" orient="auto" refx="8" refy="5" viewbox="0 0 10 10"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#8f98a2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></marker>
+</defs>
+<g fill="none" stroke="#a7aeb6" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">
+<path d="M128,222 H154" marker-end="url(#b-ar)"></path>
+<path d="M274,222 H340 V112 H598" marker-end="url(#b-ar)"></path>
+<path d="M340,222 V332 H368" marker-end="url(#b-ar)"></path>
+<path d="M500,332 H532"></path>
+<path d="M566,332 H598" marker-end="url(#b-ar)"></path>
+<path d="M740,112 H778" marker-end="url(#b-ar)"></path>
+<path d="M740,332 H778" marker-end="url(#b-ar)"></path>
+<path d="M890,112 H924 V222"></path>
+<path d="M890,332 H924 V222"></path>
+<path d="M924,222 H958" marker-end="url(#b-ar)"></path>
+</g>
+<g fill="none" stroke="#c9ced4" stroke-dasharray="4 4" stroke-linecap="round" stroke-width="1.4">
+<path d="M549,350 V392"></path>
+</g>
+<g text-anchor="middle">
+<text fill="#8a929b" font-size="11.5" letter-spacing=".06em" x="549" y="410">ESGOTO</text>
+<text fill="#8a929b" font-size="11.5" x="549" y="427">desvio quando a água sai suja</text>
+</g>
+<g font-size="11" font-weight="600" letter-spacing=".08em">
+<text fill="#0d6e7a" x="356" y="96">LINHA 1 · DISCO + UF</text>
+<text fill="#0d6e7a" x="356" y="296">LINHA 2 · MÍDIA + 3 VIAS + DISCO + UF</text>
+</g>
+<g stroke-width="1.25">
+<rect fill="#f6f7f8" height="52" rx="10" stroke="#d5d9de" width="112" x="16" y="196"></rect>
+<rect fill="#f6f7f8" height="52" rx="10" stroke="#d5d9de" width="118" x="156" y="196"></rect>
+<rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="140" x="600" y="88"></rect>
+<rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="110" x="780" y="88"></rect>
+<rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="130" x="370" y="308"></rect>
+<rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="140" x="600" y="308"></rect>
+<rect fill="#fff" height="48" rx="10" stroke="#c9ced4" width="110" x="780" y="308"></rect>
+<rect fill="#eaf4f5" height="52" rx="10" stroke="#0d6e7a" width="146" x="960" y="196"></rect>
+</g>
+<g fill="#fff" stroke="#0d6e7a" stroke-width="1.3">
+<path d="M549,315 L566,332 L549,349 L532,332 Z"></path>
+</g>
+<text fill="#0d6e7a" font-size="9.5" font-weight="700" text-anchor="middle" x="549" y="336">3V</text>
+<g text-anchor="middle">
+<text fill="#0f1215" font-size="14.5" font-weight="500" x="72" y="218">Caixa d'água</text>
+<text fill="#6b737c" font-size="11.5" x="72" y="236">~1.000 L no teste</text>
+<text fill="#0f1215" font-size="14.5" font-weight="500" x="215" y="218">Bomba</text>
+<text fill="#6b737c" font-size="11.5" x="215" y="236">Dancor AP3C · 1 CV</text>
+<text fill="#0f1215" font-size="14" font-weight="500" x="670" y="109">Filtro de disco</text>
+<text fill="#6b737c" font-size="11.5" x="670" y="126">120 mesh (~130 µm)</text>
+<text fill="#0f1215" font-size="14.5" font-weight="500" x="835" y="117">UF 1</text>
+<text fill="#0f1215" font-size="14" font-weight="500" x="435" y="329">Filtro de mídia</text>
+<text fill="#6b737c" font-size="11.5" x="435" y="346">areia + antracito</text>
+<text fill="#0f1215" font-size="14" font-weight="500" x="670" y="329">Filtro de disco</text>
+<text fill="#6b737c" font-size="11.5" x="670" y="346">120 mesh (~130 µm)</text>
+<text fill="#0f1215" font-size="14.5" font-weight="500" x="835" y="337">UF 2</text>
+<text fill="#0d6e7a" font-size="14.5" font-weight="600" x="1033" y="218">Bebedouro</text>
+<text fill="#4d6f74" font-size="11.5" x="1033" y="236">com boia, sem tanque</text>
+</g>
+<!-- válvula de retenção 3/4", entre a bomba e a bifurcação -->
+<g fill="#fff" stroke="#0d6e7a" stroke-width="1.3">
+<path d="M307,209 L320,222 L307,235 L294,222 Z"></path>
+</g>
+<text fill="#0d6e7a" font-size="9.5" font-weight="700" text-anchor="middle" x="307" y="226">VR</text>
+<g fill="#4d6f74" font-size="10.5" text-anchor="end">
+<text x="334" y="270">retenção 3/4"</text>
+<text x="334" y="284">uma para as 2 linhas</text>
+</g>
+</svg></div>
+<p class="figcap">Composição segundo o Google Doc de dúvidas e o vídeo da montagem de 03/10/2026; válvula de retenção (VR) de 3/4" entre a bomba e a bifurcação, uma para as duas linhas, segundo o Manu (13/10/2026). O filtro de disco é o mesmo modelo nas duas linhas. Na linha 2, a válvula de 3 vias manda para o esgoto a água que sai suja da mídia; com água limpa, segue para o disco. A composição será conferida na volta da máquina à PUC.</p>
+<div class="fig-h" style="margin-top:44px"><h3>Configuração 3 · Piloto</h3><span><span class="tag t-nd">A definir</span></span></div>
+<p>O trem de tratamento do piloto está a definir com o Gabriel Poydo. Em 05/10/2026, o caminho considerado mais seguro pela equipe foi disco + membrana, sem filtro de mídia. As recomendações já registradas estão em <a href="#duvidas">Dúvidas em aberto</a>.</p>
+<p class="src">Fontes: esquema de processo do David; Google Doc “Yara: dúvidas de filtragem (v2)”; vídeo da montagem de 03/10/2026; histórico de campo v2 (09/10/2026); Manu, 13/10/2026; alternância das linhas e tanque de cloro: Rodrigo, 14/10/2026.</p></div></div></section><section id="componentes"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>02</b>Componentes</p><h2>Componentes</h2><p class="q">O que está instalado, peça por peça.</p></div><div class="body">
+<div class="tw stack">
+<table class="comp">
+<thead><tr><th>Componente</th><th>O que sabemos</th><th>Tipo do dado</th></tr></thead>
+<tbody>
+<tr><td>Água de entrada no teste</td><td data-l="O que sabemos">Teste anterior em outra fazenda, não a do piloto, com água de concessionária numa caixa d'água de ~1.000 L; qualidade dessa água não medida. Nas fazendas-alvo, a água bruta vem de reservatórios grandes, normalmente de geomembrana.</td><td data-l="Tipo do dado"><span class="tag t-rel">Relato</span></td></tr>
+<tr><td>Bomba</td><td data-l="O que sabemos">Dancor AP3C, ~1 CV. Vazão nominal registrada como “da ordem de 2.000–3.000 L/h” ou 3.000 L/h, conforme o trecho da fonte. Entrega medida com balde: ~1.500 a 1.700 L/h (erro &lt; 100 L/h).</td><td data-l="Tipo do dado"><span class="tag t-med">Medido</span> <a class="dref" href="#d6">D6</a></td></tr>
+<tr><td>Vaso de mídia</td><td data-l="O que sabemos">VITTAX 1465-4, PRFV 14" × 65", boca de 4". Etiqueta: 150 psi (1,0 MPa) máx., 1 a 49 °C, vácuo máx. 127 mmHg. Loja Era (NEA36): 147 L; 10 bar máx.; operação recomendada de 1 a 4 bar; vazão padrão 2,5 m³/h; retrolavagem recomendada 3 a 4 m³/h. Vaso cerca de 70% cheio (Manu, 13/10/2026).</td><td data-l="Tipo do dado"><span class="tag t-fab">Fabricante</span></td></tr>
+<tr><td>Mídia (por vaso)</td><td data-l="O que sabemos">De baixo para cima: areia grossa (25 kg), areia média (25 kg) e antracito (2 × 25 kg). Granulometria e altura das camadas não constam na nota fiscal.</td><td data-l="Tipo do dado"><span class="tag t-fab">Fabricante</span></td></tr>
+<tr><td>Válvula do vaso</td><td data-l="O que sabemos">Runxin F56A1, manual, multivias (serviço, retrolavagem, enxágue rápido), até 4 m³/h. Fabricante: tanques de 6" a 12", 1,5 a 6 bar, 5 a 50 °C, turbidez de entrada &lt; 20 FTU. Sem manual em mãos.</td><td data-l="Tipo do dado"><span class="tag t-fab">Fabricante</span> <a class="dref" href="#d4">D4</a></td></tr>
+<tr><td>Crepinas e tubo central</td><td data-l="O que sabemos">Crepina superior JD211 e inferior JD212, 3/4", ranhura 0,25 a 0,30 mm, para tanques de 6" a 12". Tubo central de 3/4" (25 mm), para tanques de 6" a 13". O tubo é rígido, tem comprimento próprio para o vaso e chega ao fundo (Manu, 13/10/2026).</td><td data-l="Tipo do dado"><span class="tag t-fab">Fabricante</span></td></tr>
+<tr><td>Acessórios do vaso</td><td data-l="O que sabemos">Quebra-vácuo Small UM1 (nota fiscal), peça original que veio com os filtros: não foi instalado. Reduzia de 1" para 1/2", e o Manu avaliou que daria perda de carga demais; ao desmontar, viu que era uma válvula de retenção (unidirecional). No lugar, instalou uma válvula de retenção equivalente, de 3/4", na entrada, entre a bomba e os filtros, uma só para as duas linhas (Manu, 13/10/2026). Redução N9903-A de 4" para 2,5" (boca do tanque para a base da válvula). A válvula de alívio saiu do pedido.</td><td data-l="Tipo do dado"><span class="tag t-fab">Fabricante</span> <span class="tag t-rel">Relato</span></td></tr>
+<tr><td>Filtro de disco (um por linha)</td><td data-l="O que sabemos">Irritec YDV “Modelo D” 3/4", 120 mesh (~130 µm), código IFYDVCDLM2C0N, discos vermelhos. Vazão máx. recomendada 5 m³/h; área filtrante 170 cm²; corpo e discos de polipropileno; vedação NBR. A família YDV vai até 200 mesh (~80 µm).</td><td data-l="Tipo do dado"><span class="tag t-fab">Fabricante</span> <a class="dref" href="#d5">D5</a></td></tr>
+<tr><td>UF (uma por linha)</td><td data-l="O que sabemos">Vazão nominal ~3.000 L/h. As mesmas que o Rodrigo sempre usou na Água Camelo; modelo e fabricante não registrados. Área e material da membrana desconhecidos. Carcaça inox; cabeçote com O-ring, fechado por abraçadeira. Os datasheets recebidos da Era Ambiental (Kleber) não são das UFs instaladas: servem só como referência das membranas que o fornecedor tem disponíveis.</td><td data-l="Tipo do dado"><span class="tag t-rel">Relato</span> <span class="tag t-nd">Desconhecido</span></td></tr>
+<tr><td>Válvulas da linha</td><td data-l="O que sabemos">12 válvulas de esfera motorizadas de 3/4", de 2 vias (posições no P&amp;ID; funções no mapa abaixo). O P&amp;ID mostra também válvulas manuais em série com as motorizadas. Válvula de 3 vias STK2012T DN20 3/4" a jusante da mídia, instalada em 02–03/10/2026. Válvula de retenção de 3/4" na entrada, entre a bomba e os filtros, uma só para as duas linhas (Manu, 13/10/2026).</td><td data-l="Tipo do dado"><span class="tag t-rel">Relato</span></td></tr>
+<tr><td>Proteção de pressão</td><td data-l="O que sabemos">Não há válvula de alívio mecânica. Pressão de corte da bomba e sensores de pressão: ver <a href="firmware.html">Firmware</a> e <a href="eletrica.html">Elétrica</a>.</td><td data-l="Tipo do dado"><span class="tag t-rel">Relato</span> <a class="dref" href="#d9">D9</a></td></tr>
+<tr><td>Retrolavagem</td><td data-l="O que sabemos">As duas linhas se alternam: uma filtra enquanto a outra pode ser limpa. A água filtrada de uma linha faz a retrolavagem da UF da outra; a válvula 8 cruza as linhas (pré-filtro 1 ↔ UF 2, pré-filtro 2 ↔ UF 1). Em campo, a retrolavagem foi feita à mão; o gatilho automático está em <a href="firmware.html">Firmware</a>.</td><td data-l="Tipo do dado"><span class="tag t-rel">Relato</span> <a class="dref" href="#d10">D10</a></td></tr>
+<tr><td>Saída</td><td data-l="O que sabemos">Direto ao bebedouro, com boia mecânica de 3/4" de alta vazão, sem tanque. Quando a boia fecha, a pressão sobe e a máquina para. O religamento depois que a boia fecha não está definido.</td><td data-l="Tipo do dado"><span class="tag t-rel">Relato</span></td></tr>
+<tr><td>Cloro</td><td data-l="O que sabemos">Tanque de cloro (PE, 60 L) com a bomba 2 (dosadora), instalados; a dosadora nunca foi testada em campo. Nota de engenharia de 04/10/2026: não dosar cloro de forma contínua no piloto. Era uma posição anterior da Wara. A recomendação do Gabriel Poydo (call de 07/10/2026) prevalece: o cloro pode ser dosado antes da membrana, por motivo de processo, e é retirado antes de a água ir ao gado.</td><td data-l="Tipo do dado"><span class="tag t-rel">Relato</span></td></tr>
+<tr><td>Manômetros</td><td data-l="O que sabemos">Genebre 63 mm (0 a 10 bar) e manômetro de 300 psi com glicerina, 1/4". O P&amp;ID tem 5 pontos de indicação de pressão (PI): descarga da Bomba 1, saída de cada filtro de mídia, linha de retorno da válvula 11 e saída das UFs.</td><td data-l="Tipo do dado"><span class="tag t-fab">Fabricante</span> <span class="tag t-rel">Relato</span></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">Fontes: Google Doc “Yara: dúvidas de filtragem (v2)”; histórico de campo v2; notas fiscais da Era Ambiental (jul/2026, sem preços); identificação do filtro de disco (09/10/2026); fotos das etiquetas; cloro: nota de engenharia de 04/10/2026 e call de 07/10/2026; alternância das linhas: Rodrigo, 14/10/2026.</p>
+<h3 class="sub" style="margin-top:56px">Mapa das válvulas (estado de 29/09/2026)</h3>
+<div class="tw">
+<table class="valv">
+<thead><tr><th>Válvula</th><th>Função</th><th class="g">Grupo</th></tr></thead>
+<tbody>
+<tr><td class="n">0</td><td>Saída para o bebedouro</td><td class="g">Saída</td></tr>
+<tr><td class="n">5</td><td>Entrada da mídia 1</td><td class="g">Linha 1</td></tr>
+<tr><td class="n">13</td><td>Esgoto da mídia 1</td><td class="g">Linha 1</td></tr>
+<tr><td class="n">4</td><td>Esgoto da UF 1</td><td class="g">Linha 1</td></tr>
+<tr><td class="n">2</td><td>Saída da UF 1</td><td class="g">Linha 1</td></tr>
+<tr><td class="n">6</td><td>Entrada da mídia 2</td><td class="g">Linha 2</td></tr>
+<tr><td class="n">15</td><td>Esgoto da mídia 2</td><td class="g">Linha 2</td></tr>
+<tr><td class="n">7</td><td>Esgoto da UF 2</td><td class="g">Linha 2</td></tr>
+<tr><td class="n">9</td><td>Saída da UF 2</td><td class="g">Linha 2</td></tr>
+<tr><td class="n">8</td><td>Ligação entre as linhas depois das mídias</td><td class="g">Entre linhas</td></tr>
+<tr><td class="n">11</td><td>Volta do concentrado das UFs para a linha</td><td class="g">Entre linhas</td></tr>
+<tr><td class="n">3</td><td>Bypass (sem filtração)</td><td class="g">Bypass</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">Fonte: mapa informado pelo Rodrigo em 29/09/2026. Mostra o estado antes das mudanças de 02–03/10 (válvula de 3 vias e filtro de disco).</p>
+<h3 class="sub" style="margin-top:56px">Fotos da máquina</h3>
+<div class="photos">
+<figure><div class="ph"><img alt="Yara montada no galpão" loading="lazy" src="img/yara-inteira.jpg"/></div><figcaption>Yara montada no galpão: dois vasos de mídia, válvulas motorizadas (laranja) e bomba embaixo.<span>O quadro elétrico foi desfocado: ver <a href="eletrica.html">Elétrica</a>.</span></figcaption></figure>
+<figure><div class="ph"><img alt="Lateral da Yara com filtro de disco e vaso de mídia" loading="lazy" src="img/video-skid-lateral.jpg"/></div><figcaption>Lateral da máquina: filtro de disco junto ao vaso de mídia e válvulas motorizadas.<span>Quadro do vídeo da montagem, 03/10/2026.</span></figcaption></figure>
+<figure><div class="ph"><img alt="Filtro de disco instalado" loading="lazy" src="img/video-disco-instalado.jpg"/></div><figcaption>Filtro de disco Irritec instalado na linha.<span>Quadro do vídeo da montagem, 03/10/2026.</span></figcaption></figure>
+<figure><div class="ph"><img alt="Topo da carcaça de UF" loading="lazy" src="img/video-cabecote-uf.jpg"/></div><figcaption>Topo de uma carcaça de UF: cabeçote inox fechado por abraçadeira, onde fica o O-ring.<span>Quadro do vídeo da montagem, 03/10/2026.</span></figcaption></figure>
+<figure><div class="ph"><img alt="Ligação de entrada" loading="lazy" src="img/yara-entrada.jpg"/></div><figcaption>Ligação de entrada: mangueira preta, registro de esfera em PVC e tubulação junto ao vaso.</figcaption></figure>
+<figure><div class="ph"><img alt="Saída da bomba" loading="lazy" src="img/yara-bomba.jpg"/></div><figcaption>Saída da bomba, no piso: uniões, tê com mangueira trançada e mangueira subindo para a tubulação.</figcaption></figure>
+<figure><div class="ph land contain"><img alt="Etiqueta do filtro de disco" loading="lazy" src="img/disco-etiqueta.jpg"/></div><figcaption>Etiqueta do filtro de disco: Irritec IFYDVCDLM2C0N, “Y FILTER D 3/4" DISK 120M”.</figcaption></figure>
+<figure><div class="ph land contain"><img alt="Etiqueta do vaso: modelo 1465-4" loading="lazy" src="img/vaso-etiqueta-modelo.jpg"/></div><figcaption>Etiqueta do vaso: VITTAX, pressure vessel, modelo 1465-4.</figcaption></figure>
+<figure><div class="ph land contain"><img alt="Etiqueta do vaso: especificações de operação" loading="lazy" src="img/vaso-etiqueta-specs.jpg"/></div><figcaption>Etiqueta do vaso: 150 psi (1,0 MPa), 1 a 49 °C, vácuo máx. 127 mmHg.</figcaption></figure>
+</div>
+<div class="catalog">
+<p><b>Fotos de catálogo, não são as peças instaladas.</b> Não há foto real das crepinas nem da mídia. Estas imagens são da loja que vendeu os itens das notas fiscais (Era Ambiental), do mesmo modelo.</p>
+<div class="photos">
+<figure><div class="ph sq contain"><img alt="Válvula Runxin F56A1, catálogo" loading="lazy" src="img/ref-f56a1.jpg"/></div><figcaption>Válvula manual Runxin F56A1</figcaption></figure>
+<figure><div class="ph sq contain"><img alt="Crepina superior JD211, catálogo" loading="lazy" src="img/ref-jd211.jpg"/></div><figcaption>Crepina superior JD211, 3/4"</figcaption></figure>
+<figure><div class="ph sq contain"><img alt="Crepina inferior JD212, catálogo" loading="lazy" src="img/ref-jd212.jpg"/></div><figcaption>Crepina inferior JD212, 3/4"</figcaption></figure>
+<figure><div class="ph sq contain"><img alt="Antracito, catálogo" loading="lazy" src="img/ref-antracito.jpg"/></div><figcaption>Antracito<span>Página atual da loja: 0,8 a 1,0 mm. A nota fiscal não informa a granulometria.</span></figcaption></figure>
+</div>
+</div>
+</div></div></section><section id="lavagem"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>03</b>Lavagem das UFs</p><h2>Lavagem das UFs</h2><p class="q">Como as UFs foram limpas e o que está registrado como recomendação.</p></div><div class="body">
+<dl class="spec">
+<div><dt>13–27/09/2026</dt><dd>Limpeza das UFs em campo: uma UF foi de ~400 para ~1.400–1.600 L/h; a outra chegou a ~1.200–1.300 L/h e caiu para menos de 300 L/h. <span class="tag t-apx">Aproximado</span></dd></div>
+<div><dt>03–04/10/2026</dt><dd>UF lavada à mão com água corrente e desentupida por retrolavagem improvisada (mangueira, pressão da caixa, água bruta), sem química: ~200 → ~1.000 L/h. <span class="tag t-apx">Aproximado</span></dd></div>
+<div><dt>07/10/2026</dt><dd>A UF desentupida colmatou de novo, com só o disco a montante: “bloqueio severo”. <span class="tag t-rel">Relato</span> <a class="dref" href="#d11">D11</a></dd></div>
+<div><dt>Retrolavagem entre linhas</dt><dd>As linhas se alternam e a água filtrada de uma lava a UF da outra. <a class="dref" href="#d10">D10</a></dd></div>
+<div><dt>Retrolavagem automática</dt><dd>Nunca disparou em campo; todas as retrolavagens foram manuais. O gatilho está em <a href="firmware.html">Firmware</a>.</dd></div>
+</dl>
+<h3 class="sub" style="margin-top:44px">Recomendações registradas do Gabriel Poydo (call de 07/10/2026)</h3>
+<ul class="open">
+<li><b>CEB</b>Limpeza diária, de ~15 min, automática, com hipoclorito de sódio.</li>
+<li><b>CIP</b>A cada 45 a 60 dias, de algumas horas, com hipoclorito, ácido cítrico e soda.</li>
+<li><b>Água da retrolavagem</b>O arranjo atual (uma linha lava a outra) tem pressão insuficiente para uma retrolavagem adequada. Solução proposta: reservatório de água limpa de ~1.500 a 2.000 L para a retrolavagem.</li>
+<li><b>Cloro antes da UF</b>Membranas de UF são compatíveis com cloro; dosar hipoclorito na entrada da membrana evita biofouling. O cloro residual sai antes do gado, por filtro de carvão depois da membrana ou bissulfito de sódio.</li>
+</ul>
+<p class="src">Fontes: histórico de campo da Yara v2 (09/10/2026); levantamento de problemas de 04/10/2026; call com o Gabriel Poydo de 07/10/2026.</p></div></div></section><section id="campo">
+<div class="wrap sec">
+<div class="sec-head"><p class="eyebrow"><b>04</b>Campo</p><h2>O que aconteceu no campo</h2><p class="q">Linha do tempo da máquina de campo no teste anterior, em outra fazenda, com água de concessionária (qualidade não medida), com a visita de 02 a 04/10/2026 em destaque, e os problemas observados.</p></div>
+<div class="body">
+<div class="stats sm">
+<div><div class="stat">1.500–1.700</div><div class="stat-l">L/h entregues pela bomba, medida com balde, contra 2.000–3.000 ou 3.000 L/h nominais, conforme a fonte<br/><span class="tag t-med">Medido</span> <a class="dref" href="#d6">D6</a></div></div>
+<div><div class="stat">4–5 ou &gt; 5 <small>bar</small></div><div class="stat-l">pressão em que a bomba desarmava, em menos de 2 s, conforme a fonte<br/><span class="tag t-rel">Relato</span> <a class="dref" href="firmware.html">pressão: ver Firmware</a> <a class="dref" href="firmware.html">pressão: ver Firmware</a></div></div>
+<div><div class="stat">~200 → ~1.000</div><div class="stat-l">L/h numa UF depois da lavagem manual e da retrolavagem improvisada, 03–04/10<br/><span class="tag t-apx">Aproximado</span></div></div>
+<div><div class="stat">2</div><div class="stat-l">entupimentos de UF: com antracito vindo da mídia e, depois, com só o disco a montante<br/><span class="tag t-rel">Relato</span></div></div>
+</div>
+<p class="phase">Antes da visita</p>
+<ol class="tl muted">
+<li><div class="d"><b>Jul</b>2026</div><div class="c"><h3>Montagem dos vasos de mídia</h3><dl>
+<dt>Feito</dt><dd>VITTAX 1465-4 (14" × 65"), válvula manual Runxin F56A1, crepinas JD211/JD212. Camadas, de baixo para cima: areia grossa, areia média, antracito.</dd>
+<dt>Observado</dt><dd>Vaso cerca de 70% cheio (Manu, 13/10/2026).</dd></dl></div></li>
+<li><div class="d"><b>13–27/09</b>2026</div><div class="c"><h3>Janela de campo: duas linhas iguais (mídia → UF)</h3><dl>
+<dt>Feito</dt><dd>Bomba ~1 CV, 12 válvulas motorizadas, alimentação por caixa d'água de ~1.000 L, com água de concessionária. Limpeza das UFs.</dd>
+<dt>Observado</dt><dd>UFs sujas; com a limpeza, a vazão subiu. Uma UF foi de ~400 para ~1.400–1.600 L/h com a limpeza; a outra chegou a ~1.200–1.300 L/h e caiu para menos de 300 L/h. A UF ficou “muito preta”. O pico ao ligar “quase estourou a vedação dos vasos de mídia”. Leitura de 7,46 bar na UF2. A sucção colapsava com mangueira fraca. A caixa d'água acabou e limitou os testes.</dd></dl></div></li>
+<li><div class="d"><b>28/09</b>2026</div><div class="c"><h3>Teste de pressão</h3><dl>
+<dt>Observado</dt><dd>2 bar estático; 1,8 bar pela mídia; 4 bar ao fechar válvulas, e a bomba desligou. Suspeita de mídia entupida.</dd>
+<dt>Decidido</dt><dd>Cada linha testaria uma alternativa: L1 mídia → 3 vias → UF1 e L2 disco → UF2. O que foi montado em 03/10 foi diferente (configuração 2). Limpar as UFs de 3.000 L/h. Entrega por boia mecânica, com parada pela pressão; religamento indefinido.</dd></dl></div></li>
+</ol>
+<p class="phase hot">Visita de campo · 02 a 04/10/2026</p>
+<ol class="tl hot">
+<li><div class="d"><b>02/10</b>sex</div><div class="c"><h3>Chegada</h3><dl>
+<dt>Observado</dt><dd>Mídia de uma linha “totalmente preta” e as duas UFs entupidas.</dd></dl></div></li>
+<li><div class="d"><b>03/10</b>sáb</div><div class="c"><h3>Mudança das linhas</h3><dl>
+<dt>Feito</dt><dd>Um vaso de mídia trocado por filtro de disco. Instaladas a válvula de 3 vias e a boia no bebedouro. Vídeo da montagem: L1 = disco → UF1; L2 = mídia → 3 vias → disco → UF2. Disco Irritec YDV 3/4" 120 mesh (~130 µm), um por linha.</dd>
+<dt>Decidido</dt><dd>Plano B com UFs de 1.000 L/h descartado (conexão de 1/2" contra linha de 3/4").</dd></dl></div></li>
+<li><div class="d"><b>03–04/10</b></div><div class="c"><h3>Lavagens</h3><dl>
+<dt>Feito</dt><dd>UF lavada à mão com água corrente e desentupida por retrolavagem improvisada (mangueira, pressão da caixa, água bruta): ~200 → ~1.000 L/h, sem química. Retrolavagens feitas à mão. Mídia lavada inúmeras vezes, inclusive ~20 min de retrolavagem.</dd>
+<dt>Observado</dt><dd>A mídia seguiu “sujando a água”. No balde, a água depois da mídia estava mais suja que a de entrada; depois do disco, sem melhora visível. Disco com pouca perda de carga. A caixa esvaziou e veio água do fundo com partículas grandes.</dd></dl></div></li>
+<li><div class="d"><b>04/10</b>dom</div><div class="c"><h3>Fim da visita</h3><dl>
+<dt>Feito</dt><dd>O-ring da cabeça da UF achado montado errado e remontado; o vazamento parou <a class="dref" href="#d1">D1</a>.</dd>
+<dt>Observado</dt><dd>Sem vazão, o que impediu testes. Segundo o Manu (call de 05/10), com a chuva forte o bebedouro provavelmente ficou cheio e manteve a boia fechada. Ao ligar: 4–5 bar quase na hora e vazamento na cabeça da UF <a class="dref" href="firmware.html">pressão: ver Firmware</a>.</dd></dl></div></li>
+</ol>
+<p class="phase">Depois da visita</p>
+<ol class="tl muted">
+<li><div class="d"><b>05/10</b>seg</div><div class="c"><h3>Medição da bomba</h3><dl>
+<dt>Observado</dt><dd>Vazão aferida com balde (erro &lt; 100 L/h): ~1.500–1.700 L/h. Sem bomba, a caixa dava ~500–600 L/h. Causa não testada.</dd>
+<dt>Decidido</dt><dd>Caminho considerado mais seguro: disco + membrana, sem filtro de mídia; procurar discos em cascata. Trazer a máquina para a PUC. Válvula de alívio de 6 bar <a class="dref" href="#d9">D9</a>.</dd></dl></div></li>
+<li><div class="d"><b>06/10</b>ter</div><div class="c"><h3>Teste com o responsável local</h3><dl>
+<dt>Feito</dt><dd>Vazamento da UF: teflon; depois, abraçadeira desmontada e remontada com mais aperto, e o vazamento parou.</dd>
+<dt>Observado</dt><dd>Bomba desarmando por sobrepressão em &lt; 2 s, com 4–5 bar ou acima de 5 bar, conforme a fonte <a class="dref" href="firmware.html">pressão: ver Firmware</a>. Vazão zero com as duas linhas abertas: a válvula 0 (saída final) “fechava mas não abria”. Enchimento só pelo bypass. UF vazando de novo. Retrolavagem automática não acionou (limite de 8 bar, “alto de propósito”).</dd>
+<dt>Decidido</dt><dd>Operar só em bypass e retirar a máquina o quanto antes.</dd></dl></div></li>
+<li><div class="d"><b>07/10</b>qua</div><div class="c"><h3>Teste só com a coluna d'água (~2 bar)</h3><dl>
+<dt>Observado</dt><dd>Vazão “muito baixa”. A UF desentupida colmatou de novo, com só o disco a montante. UF em “bloqueio severo” <a class="dref" href="#d11">D11</a>. A linha com mídia, 3 vias e disco a jusante não resolveu.</dd>
+<dt>Decidido</dt><dd>2ª válvula em paralelo à válvula 0. Início do piloto passa para dezembro. Descartada a retrolavagem entre linhas com a mesma água, salvo com duas bombas ou fonte limpa <a class="dref" href="#d10">D10</a>. Pedidas fotos da crepina.</dd></dl></div></li>
+<li><div class="d"><b>08/10</b>qui</div><div class="c"><h3>Retirada</h3><dl>
+<dt>Decidido</dt><dd>Retirar a Yara sem novos testes.</dd></dl></div></li>
+<li><div class="d"><b>09/10</b>sex</div><div class="c"><h3>Call com o Gabriel</h3><dl>
+<dt>Decidido</dt><dd>Pedir à Era Ambiental a documentação das membranas que ela tem disponíveis, só para conhecer as opções (não são as membranas instaladas na Yara). Sem teste de bancada.</dd></dl></div></li>
+<li><div class="d"><b>19/10</b>seg</div><div class="c"><h3>Chegada da Yara à PUC (Rodrigo, 14/10/2026)</h3><dl>
+<dt>Previsto</dt><dd>Conferir a composição das linhas.</dd></dl></div></li>
+</ol>
+<p class="src">Fonte: histórico de campo da Yara v2 (09/10/2026, reformatado em 12/10), que cita as calls de 28/09 a 09/10, o vídeo de 03/10 e o Google Doc de dúvidas; levantamento de problemas de 04/10/2026 (itens de 13–27/09).</p>
+<h3 class="sub" style="margin-top:48px">Problemas observados</h3>
+<div class="tw stack">
+<table class="prob">
+<thead><tr><th>#</th><th>Problema</th><th>O que se viu</th><th>Situação</th></tr></thead>
+<tbody>
+<tr><td>P1</td><td data-l="Problema">Mídia escureceu a água</td><td data-l="O que se viu">Água preta saindo do filtro de mídia, mais suja que a de entrada, mesmo depois de inúmeras lavagens e ~20 min de retrolavagem. O antracito chegou à UF. Os vasos foram transportados cheios, com mídia e água (4 h de carro).</td><td data-l="Situação">Causa não confirmada; ver <a href="#duvidas">dúvidas em aberto</a></td></tr>
+<tr><td>P2</td><td data-l="Problema">UF colmatada</td><td data-l="O que se viu">Duas vezes: com antracito vindo da mídia e com só o disco a montante. Recuperou de ~200 para ~1.000 L/h e entupiu de novo.</td><td data-l="Situação">Sem datasheet da UF instalada; recuperação incerta <a class="dref" href="#d11">D11</a></td></tr>
+<tr><td>P3</td><td data-l="Problema">Disco sem efeito visível</td><td data-l="O que se viu">Pouca perda de carga; sem melhora visível de turbidez no balde.</td><td data-l="Situação">Sem curva do disco sujo</td></tr>
+<tr><td>P4</td><td data-l="Problema">Sobrepressão e desarme</td><td data-l="O que se viu">Desarme em &lt; 2 s, com 4–5 bar quase na hora ao ligar ou acima de 5 bar, conforme a fonte; 7,46 bar na UF2 (set.); pico ao ligar que quase estourou a vedação dos vasos.</td><td data-l="Situação">Setpoint não confirmado <a class="dref" href="firmware.html">pressão: ver Firmware</a> <a class="dref" href="firmware.html">pressão: ver Firmware</a></td></tr>
+<tr><td>P5</td><td data-l="Problema">Vazamento no cabeçote da UF</td><td data-l="O que se viu">Vazou ao ligar. Parou ao remontar o O-ring, voltou, parou de novo com a abraçadeira remontada com mais aperto.</td><td data-l="Situação">Causa em aberto <a class="dref" href="#d1">D1</a></td></tr>
+<tr><td>P6</td><td data-l="Problema">Bomba abaixo do nominal</td><td data-l="O que se viu">~1.500–1.700 L/h medidos contra 2.000–3.000 ou 3.000 L/h nominais, conforme a fonte.</td><td data-l="Situação">Gargalo não testado <a class="dref" href="#d6">D6</a></td></tr>
+<tr><td>P7</td><td data-l="Problema">Válvula de saída travada</td><td data-l="O que se viu">A válvula 0 “fechava mas não abria”: vazão zero com as duas linhas abertas.</td><td data-l="Situação">Decidida 2ª válvula em paralelo</td></tr>
+<tr><td>P8</td><td data-l="Problema">Boia fechada</td><td data-l="O que se viu">Relato do Manu (call de 05/10): com a chuva forte, o bebedouro provavelmente ficou cheio e manteve a boia fechada, e por isso não havia vazão. <span class="tag t-rel">Relato</span></td><td data-l="Situação">Religamento depois que a boia fecha não definido</td></tr>
+<tr><td>P9</td><td data-l="Problema">Caixa d'água esvaziou</td><td data-l="O que se viu">Veio água do fundo com partículas grandes; a falta de água limitou os testes.</td><td data-l="Situação">Captação em reservatório: <a href="#duvidas">dúvidas em aberto</a></td></tr>
+<tr><td>P10</td><td data-l="Problema">Retrolavagem automática não disparou</td><td data-l="O que se viu">Limite de diferencial de pressão em 8 bar, “alto de propósito”. Todas as retrolavagens foram manuais.</td><td data-l="Situação">Gatilho em aberto</td></tr>
+<tr><td>P11</td><td data-l="Problema">Sucção colapsava</td><td data-l="O que se viu">Com mangueira fraca, a sucção colapsava por vácuo.</td><td data-l="Situação">Trocada por mangueira com lona interna ou tubo rígido</td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="sub" style="margin-top:48px">Fibras de UF com antracito</h3>
+<div class="photos">
+<figure><div class="ph"><img alt="Feixe de fibras de UF sujo" loading="lazy" src="img/uf-fibras-1.jpg"/></div><figcaption>Feixe de fibras de UF escurecido.<span>Arquivo do pacote: 15-uf-suja-antracito.jpg. Data e linha não registradas.</span></figcaption></figure>
+<figure><div class="ph"><img alt="Feixe de fibras de UF sujo, detalhe" loading="lazy" src="img/uf-fibras-2.jpg"/></div><figcaption>Feixe de fibras de UF escurecido.<span>Arquivo do pacote: 16-uf-suja-antracito.jpg. Data e linha não registradas.</span></figcaption></figure>
+<figure><div class="ph"><img alt="Feixe de fibras de UF sujo, outra vista" loading="lazy" src="img/uf-fibras-3.jpg"/></div><figcaption>Feixe de fibras de UF escurecido.<span>Arquivo do pacote: 18-uf-suja-antracito.jpg. Data e linha não registradas.</span></figcaption></figure>
+</div>
+</div>
+</div>
+</section>
+<!-- 06 DIVERGÊNCIAS -->
+<section id="divergencias">
+<div class="wrap sec">
+<div class="sec-head"><p class="eyebrow"><b>05</b>Divergências</p><h2>Divergências em aberto</h2><p class="q">Onde as fontes dizem coisas diferentes. Mostramos as versões lado a lado, sem escolher.</p></div>
+<div class="body">
+<h3 class="sub">Máquina e montagem</h3>
+<div class="tw stack"><table class="div">
+<thead><tr><th>#</th><th>Tema</th><th>Versão A</th><th>Versão B</th><th>Como confirmar</th></tr></thead>
+<tbody>
+<tr id="d1"><td>D1</td><td data-l="Tema">Causa do vazamento no cabeçote da UF</td><td data-l="Versão A">(a) O-ring montado errado (Manu, 07/10).</td><td data-l="Versão B">(b) Sobrepressão deslocou o O-ring (doc de dúvidas). (c) Vazamento por a UF estar entupida (Manu, 07/10). Não se sabe se resolveu o aperto maior ou só desmontar e montar.</td><td data-l="Como confirmar">Foto do cabeçote com o O-ring.</td></tr>
+<tr id="d2"><td>D2</td><td data-l="Tema">O que há na sucção</td><td data-l="Versão A">P&amp;ID: “Poço, açude ou rio” → “Filtro para bomba” → válvula manual → Bomba 1.</td><td data-l="Versão B">Panorama de peças e histórico: no teste, a fonte era uma caixa d'água de ~1.000 L; na sucção, mangueira com lona ou tubo rígido e válvula de pé/retenção; o panorama não registra filtro na sucção.</td><td data-l="Como confirmar">Conferência da sucção na PUC, a partir de 19/10.</td></tr>
+<tr id="d3"><td>D3</td><td data-l="Tema">Retorno do concentrado (válvula 11)</td><td data-l="Versão A">P&amp;ID: a linha da válvula 11 sai das UFs e volta para a sucção da Bomba 1.</td><td data-l="Versão B">Levantamento de problemas (04/10): o ponto exato de retorno da V11 não foi documentado.</td><td data-l="Como confirmar">Conferência da tubulação na PUC, a partir de 19/10.</td></tr>
+<tr id="d4"><td>D4</td><td data-l="Tema">Tanques compatíveis com a F56A1</td><td data-l="Versão A">Fabricante (Runxin): tanques de 6" a 12".</td><td data-l="Versão B">Loja Era: tanques de 6" a 14". O vaso instalado é de 14".</td><td data-l="Como confirmar">Manual da F56A1 (pedido à Era).</td></tr>
+<tr id="d5"><td>D5</td><td data-l="Tema">Dados do filtro de disco</td><td data-l="Versão A">Fabricante (Irritec): 120 mesh = 130 µm; 10 bar a 20 °C, sem pressão mínima.</td><td data-l="Versão B">Revendas brasileiras: 125 µm; mínimo 3 bar, máximo 8 bar. Uma revenda dá 8 bar como limite a 41–60 °C.</td><td data-l="Como confirmar">Ficha técnica oficial do modelo.</td></tr>
+</tbody>
+</table></div>
+<h3 class="sub" style="margin-top:48px">Pressão e bomba</h3>
+<div class="tw stack"><table class="div">
+<thead><tr><th>#</th><th>Tema</th><th>Versão A</th><th>Versão B</th><th>Como confirmar</th></tr></thead>
+<tbody>
+<tr id="d6"><td>D6</td><td data-l="Tema">Vazão nominal da bomba</td><td data-l="Versão A">Doc de dúvidas (contexto): “da ordem de 2.000–3.000 L/h”.</td><td data-l="Versão B">Doc de dúvidas (seção de pressão) e histórico: 3.000 L/h.</td><td data-l="Como confirmar">Etiqueta ou catálogo da bomba Dancor AP3C.</td></tr>
+<tr><td>D7–D8</td><td data-l="Tema">Corte e pressão no desarme</td><td data-l="Versão A" colspan="3">Tratadas na página <a href="firmware.html">Firmware</a>.</td></tr>
+<tr id="d9"><td>D9</td><td data-l="Tema">Válvula de alívio mecânica</td><td data-l="Versão A">Semanal de 05/10: válvula de alívio de 6 bar.</td><td data-l="Versão B">Planejamento: 4 ou 6 bar, “pendente decisão” (primeiro medir, depois comprar).</td><td data-l="Como confirmar">Registro da decisão.</td></tr>
+</tbody>
+</table></div>
+<h3 class="sub" style="margin-top:48px">Ultrafiltração e retrolavagem</h3>
+<div class="tw stack"><table class="div">
+<thead><tr><th>#</th><th>Tema</th><th>Versão A</th><th>Versão B</th><th>Como confirmar</th></tr></thead>
+<tbody>
+<tr id="d10"><td>D10</td><td data-l="Tema">Retrolavagem entre linhas</td><td data-l="Versão A">Doc de dúvidas: a água filtrada de uma linha faz a retrolavagem da UF da outra.</td><td data-l="Versão B">Call de 07/10: descartada a retrolavagem entre linhas com a mesma água, salvo com duas bombas ou fonte limpa.</td><td data-l="Como confirmar">Especificação da nova tubulação.</td></tr>
+<tr id="d11"><td>D11</td><td data-l="Tema">Perda de carga de ~2 m.c.a. na UF</td><td data-l="Versão A">Doc de dúvidas: ~2 m.c.a. foi a perda inicial, que aumentou até o bloqueio.</td><td data-l="Versão B">Plano do pacote (anterior): “ΔP de ~2 mca = bloqueada”.</td><td data-l="Como confirmar">Pressões medidas antes e depois da UF; identificação do modelo instalado.</td></tr>
+</tbody>
+</table></div>
+<h3 class="sub" style="margin-top:48px">Água bruta e meta</h3>
+<div class="tw stack"><table class="div">
+<thead><tr><th>#</th><th>Tema</th><th>Versão A</th><th>Versão B</th><th>Como confirmar</th></tr></thead>
+<tbody>
+<tr id="d12"><td>D12</td><td data-l="Tema">Edição do NRC citada</td><td data-l="Versão A">PDF da água ideal: NRC (1974), Nutrients and Toxic Substances in Water for Livestock and Poultry; NASEM (2016).</td><td data-l="Versão B">Análise técnica: NRC (2000), Nutrient Requirements of Beef Cattle; ANZECC (2000). Nota “ETA convencional”: “NRC (2000): 9–23% de perdas no GMD”.</td><td data-l="Como confirmar">Conferir a edição citada em cada documento.</td></tr>
+<tr id="d13"><td>D13</td><td data-l="Tema">Meta de turbidez</td><td data-l="Versão A">PDF da água ideal: turbidez é “indicador” da Régua 2, sem valor-alvo.</td><td data-l="Versão B">Análise técnica: VMP de 5 NTU da Portaria 888 como objetivo do piloto.</td><td data-l="Como confirmar">Definir se 5 NTU entra como meta.</td></tr>
+<tr id="d14"><td>D14</td><td data-l="Tema">Faixas sem classe no PDF</td><td data-l="Versão A">Sulfato: aceitável 500–1.000; evitar &gt; 1.500. A faixa 1.000–1.500 não tem classe.</td><td data-l="Versão B">Nitrato: aceitável 10–20; evitar &gt; 40. A faixa 20–40 não tem classe.</td><td data-l="Como confirmar">Lacuna do próprio PDF. Não afeta fazenda do piloto: valores medidos muito abaixo.</td></tr>
+<tr id="d15"><td>D15</td><td data-l="Tema">Residual de cloro da Portaria 888</td><td data-l="Versão A">Nota “ETA convencional”: residual de 0,2–2 mg/L.</td><td data-l="Versão B">Nota sobre cloro: mínimo 0,2 e máximo 5 mg/L de cloro livre.</td><td data-l="Como confirmar">Conferir o artigo da Portaria. Importa só como teto para o cloro que sobrar na entrada do bebedouro, se a remoção depois da membrana não for completa: a meta do PDF não tem valor para cloro.</td></tr>
+</tbody>
+</table></div>
+<p class="src">Fontes: tabela de divergências do histórico de campo v2; levantamento de problemas de 04/10/2026; análise meta × água da fazenda do piloto; notas sobre filtro de disco, cloro e ETA convencional; P&amp;ID da máquina como montada; calls de 05/10 a 07/10/2026.</p>
+</div>
+</div>
+</section>
+<!-- 07 PERGUNTAS -->
+<section id="duvidas"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>06</b>Dúvidas</p><h2>Dúvidas em aberto</h2><p class="q">O que ainda não sabemos e precisa ser resolvido antes do piloto.</p></div><div class="body"><ul class="open">
+<li><b>Modelo das UFs instaladas</b>As mesmas que o Rodrigo sempre usou na Água Camelo; modelo e fabricante não registrados, área e material da membrana desconhecidos. Sem datasheet, não se sabe se as UFs se recuperam ou precisam de troca.</li>
+<li><b>Por que a mídia escureceu a água</b>Hipóteses registradas: montagem ou limpeza inicial, transporte dos vasos cheios (Manu, 05/10); crepina mal dimensionada ou danificada, ordem das camadas, carvão sem molho (Gabriel Poydo, 07/10). Fotos da crepina pedidas.</li>
+<li><b>Válvula, tubo e crepinas para um vaso de 14"</b>A F56A1, as crepinas JD211/JD212 e o tubo de 3/4" são especificados para tanques de até 12" ou 13". <a class="dref" href="#d4">D4</a></li>
+<li><b>Retrolavagem dos vasos de mídia</b>Retrolavagem recomendada de 3 a 4 m³/h; a bomba entrega ~1,5 a 1,7 m³/h. Recomendação do Gabriel Poydo: vazão de 2 a 2,5 vezes a de filtração.</li>
+<li><b>Perda de carga na UF</b>~2 m.c.a. é perda inicial ou já bloqueio. <a class="dref" href="#d11">D11</a></li>
+<li><b>Gargalo de vazão</b>Bomba entrega ~1.500 a 1.700 L/h contra nominal de 2.000–3.000 ou 3.000 L/h; gargalo (sucção, bomba, pré-filtro ou UF) não testado. <a class="dref" href="#d6">D6</a></li>
+<li><b>Tanque-pulmão</b>Se a vazão de projeto (1.120 L/h) pode ser entregue direto ao bebedouro, acionada pela boia, ou se é preciso um tanque.</li>
+<li><b>Religamento depois que a boia fecha</b>Não definido do lado hidráulico; a lógica de controle está em <a href="firmware.html">Firmware</a>.</li>
+<li><b>Água e pressão na baia do piloto</b>Pressão, vazão e qualidade da água da rede na chegada à baia nunca foram medidas. Serão medidas no levantamento da fazenda.</li>
+<li><b>Válvula de saída redundante</b>A válvula 0 travou fechada; decidida em 07/10 uma 2ª válvula em paralelo. Arranjo final a definir.</li>
+<li><b>Destino do rejeito</b>O que fazer com a água das retrolavagens e do concentrado na fazenda do piloto.</li>
+<li><b>Composição das linhas</b>A conferir na volta da máquina à PUC. <a class="dref" href="#d2">D2</a> <a class="dref" href="#d3">D3</a></li>
+<li><b>Trem do piloto</b>A definir com o Gabriel Poydo. Ele pediu uma análise de água mais completa (32 parâmetros, segundo a reunião de 13/10/2026) antes de fechar o processo.</li>
+</ul><p class="src">Fontes: Google Doc “Yara: dúvidas de filtragem (v2)”; histórico de campo v2; calls de 05/10 a 09/10/2026; reunião semanal de 13/10/2026.</p></div></div></section><section id="fontes"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>07</b>Fontes</p><h2>Fontes</h2><p class="q">De onde vem cada dado.</p></div><div class="body"><p>Laudos, notas fiscais e registros internos não são publicados aqui.</p><div class="tw"><table>
+<thead><tr><th>Fonte</th><th>Usada em</th></tr></thead>
+<tbody>
+<tr><td>PDF “A água ideal para o gado” (Wara Tech, jun/2026)</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Laudos Hidro Análise: coletas de 24/11/2025 (captação e poço) e 14/05/2026 (captação, reservatório, bebedouros A12 e I12)</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Análise meta × água da fazenda do piloto; rede de água da fazenda do piloto (relatório da visita de 10/03/2026 e status de 22/04/2026)</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Google Doc “Yara: dúvidas de filtragem (v2)”, 12/10/2026</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Histórico de campo da Yara v2 e levantamento de problemas de 04/10/2026</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Mapa de função das válvulas (Rodrigo, 29/09/2026)</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Notas fiscais da Era Ambiental (jul/2026, só itens), etiquetas fotografadas e catálogos de fabricante</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Identificação do filtro de disco Irritec YDV; notas sobre cloro (04/10/2026) e ETA convencional</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Vídeo da montagem de 03/10/2026 (transcrição e quadros)</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Doc público da Yara de campo</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+<tr><td>Esquema de processo fornecido pelo David (base do diagrama da montagem original, redesenhado só com a parte hidráulica)</td><td data-l="Usada em">Geral e Hidráulica</td></tr>
+</tbody>
+</table></div><p class="src">Também usadas: call com o Gabriel Poydo (07/10/2026); Manu (13/10/2026); reunião semanal Rodrigo e David (13/10/2026); Rodrigo (14/10/2026).</p></div></div></section></main>
+<footer><div class="wrap"><p class="end">Wara Tech · Yara: Hidráulica · documento vivo, atualizado em 14/10/2026 · Páginas: <a href="geral.html">Geral</a> · <a href="hidraulica.html">Hidráulica</a> · <a href="eletrica.html">Elétrica</a> · <a href="firmware.html">Firmware</a></p></div></footer>
+<script>(function(){var l=[].slice.call(document.querySelectorAll('.subnav a'));var m={};l.forEach(function(a){m[a.getAttribute('href').slice(1)]=a});if(!('IntersectionObserver' in window))return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){l.forEach(function(a){a.classList.remove('on')});var a=m[e.target.id];if(a)a.classList.add('on')}})},{rootMargin:'-45% 0px -50% 0px'});document.querySelectorAll('section[id]').forEach(function(s){o.observe(s)})})();</script></body></html>
