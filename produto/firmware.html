@@ -32,7 +32,7 @@
         <p>O código lido aqui é o da branch <a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.3"><code>campo-1.0.3</code></a> do repositório Yara_Firmware-publico. O documento de campo deste repositório diz que a máquina roda a 1.0.3. A compilação é Arduino no PlatformIO, ambiente <code>esp32-s3-devkitc-1</code>, plataforma <code>espressif32</code> 6.11, monitor em 115200.</p>
         <p class="src">platformio.ini, linhas 11 a 15. Versão de campo 1.0.3: index.html deste repositório, seção Telemetria.</p>
         <h3>Várias strings de versão</h3>
-        <p>O mesmo código não usa um único texto de versão. A máquina roda a versão 1.0.3 (confirmado em 07/10/2026). Nota: as strings no código (<code>v2.1.4-alpha</code> em <code>defines.h</code>, <code>0.9.0</code> em <code>version.json</code>) não batem com o nome 1.0.3.</p>
+        <p>O mesmo código não usa um único texto de versão. A versão em campo é a 1.0.3 (David, 14/10/2026). O <code>v2.1.4-alpha</code> em <code>defines.h</code> e no README vem de uma versão legada. O <code>0.9.0</code> em <code>version.json</code> e na serial é um valor fixo das primeiras versões do OTA, que o David vai remover.</p>
         <div class="tw">
           <table>
             <thead><tr><th>Onde</th><th>Texto</th><th>Linha</th></tr></thead>
@@ -45,7 +45,7 @@
             </tbody>
           </table>
         </div>
-        <p class="src">O boot também lê <code>/version.json</code> da memória da placa, em estado_boot.cpp, linha 128. O arquivo do repositório não prova o texto gravado na máquina.</p>
+        <p class="src">O boot também lê <code>/version.json</code> da memória da placa, em estado_boot.cpp, linha 128. Esse 0.9.0 é o valor fixo das primeiras versões do OTA e não indica a versão em campo, que é a 1.0.3.</p>
       </div>
     </div>
   </section>
