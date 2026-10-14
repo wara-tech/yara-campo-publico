@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yara · Elétrica e hardware · Wara Tech</title>
+<meta name="description" content="Elétrica e hardware da Yara: projeto KiCad, placa que o firmware espera, e o que ainda está a confirmar.">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="geral.html">Yara<span>doc de produto</span></a><nav class="pages" aria-label="Páginas"><a href="geral.html"><i>01</i>Geral</a><a href="hidraulica.html"><i>02</i>Hidráulica</a><a href="eletrica.html" class="cur" aria-current="page"><i>03</i>Elétrica</a><a href="firmware.html"><i>04</i>Firmware</a></nav></div></header>
+<main>
+  <div class="wrap hero">
+    <p class="eyebrow">Wara Tech · elétrica e hardware</p>
+    <h1>O que alimenta e o que a placa enxerga</h1>
+    <p class="lede">Esta página junta o projeto elétrico publicado e a placa que o firmware da máquina de campo espera. Onde o desenho e a máquina montada ainda não foram conferidos um contra o outro, o texto diz a confirmar.</p>
+    <div class="facts">
+      <div><b>Projeto elétrico</b><span>provavelmente o de campo, a confirmar</span></div>
+      <div><b>Controlador no código</b><span>ESP32-S3</span></div>
+      <div><b>Placa citada como produção</b><span>Joker, PCB Core V1.1</span></div>
+      <div><b>Modelos de campo</b><span>fonte, bateria, sensores: a confirmar</span></div>
+    </div>
+  </div>
+
+  <section id="leitura">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Como ler</p>
+        <h2>Três coisas diferentes</h2>
+        <p class="q">Desenho, placa de referência e máquina montada não são a mesma prova.</p>
+      </div>
+      <div class="body">
+        <p>O repositório <a href="https://github.com/wara-tech/YB-projeto-eletrico-publico">YB-projeto-eletrico-publico</a> é o projeto elétrico em KiCad. O dono do produto trata esse projeto como provavelmente igual ao que está montado em campo. Isso continua <span class="tag t-apx">A confirmar</span> até alguém comparar o desenho com a máquina.</p>
+        <p>A placa que o firmware descreve como alvo está no README da branch <a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.3">campo-1.0.3</a>: ESP32-S3-WROOM-1 numa base JNG-E / ENELTEC JOKER. O repositório <a href="https://github.com/wara-tech/YB-modulo-basico-pcb-principal-joker-publico">YB-modulo-basico-pcb-principal-joker-publico</a> chama a PCB Core V1.1, de codinome Joker, de referência de produção. Qual revisão está na máquina de campo está <span class="tag t-apx">A confirmar</span>.</p>
+        <p>O ambiente de compilação usa o nome de placa <code>esp32-s3-devkitc-1</code>. Esse nome é o alvo do PlatformIO. Não é, por si só, a prova de que a máquina de campo usa um DevKit solto.</p>
+        <p class="src">Projeto elétrico: README de YB-projeto-eletrico-publico e carimbo de projeto-eletrico.kicad_sch. Placa: README do firmware, seção Hardware Alvo, e README do repositório Joker. Compilação: platformio.ini, linhas 11 a 13.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projeto">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Desenho</p>
+        <h2>Projeto elétrico</h2>
+      </div>
+      <div class="body">
+        <p>O esquemático de topo se chama PROJETO ELÉTRICO. O carimbo traz data 2025-09-27, revisão V1, empresa IFF - PICG, comentário PROJETO PIFF2412.0051 e autor Marllon Batista. O arquivo foi gerado pelo eeschema 8.0. O README pede para abrir no KiCad 7 ou mais novo.</p>
+        <p class="src">projeto-eletrico.kicad_sch, bloco title_block no início do arquivo. Folhas: o mesmo esquemático, propriedade Sheetname e page de cada sheet.</p>
+        <div class="tw">
+          <table>
+            <thead><tr><th>Folha</th><th>Arquivo</th><th>Página</th></tr></thead>
+            <tbody>
+              <tr><td>Topo</td><td>projeto-eletrico.kicad_sch</td><td class="n">1</td></tr>
+              <tr><td>Botoeiras</td><td>Botoeiras.kicad_sch</td><td class="n">2</td></tr>
+              <tr><td>Alimentação</td><td>Alimentacao.kicad_sch</td><td class="n">3</td></tr>
+              <tr><td>Sinalização</td><td>Sinalizacao.kicad_sch</td><td class="n">4</td></tr>
+              <tr><td>Bombas</td><td>Bombas.kicad_sch</td><td class="n">5</td></tr>
+              <tr><td>Válvulas</td><td>Valvulas.kicad_sch</td><td class="n">6</td></tr>
+              <tr><td>Sensores</td><td>Sensores.kicad_sch</td><td class="n">7</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="figcap">A folha de alimentação tem carimbo próprio: título Projeto Elétrico - Alimentação, data 2025-09-30, a mesma revisão V1 e o mesmo projeto.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="placa">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Controle</p>
+        <h2>O que o firmware espera na placa</h2>
+        <p class="q">Isto é o mapa do código, não a foto da máquina.</p>
+      </div>
+      <div class="body">
+        <p class="swipe">Deslize o diagrama para o lado.</p>
+        <div class="fig">
+          <svg viewBox="0 0 880 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Blocos que o firmware endereça" font-family="Inter, ui-sans-serif, system-ui, sans-serif">
+            <g fill="none" stroke="#a7aeb6" stroke-width="1.5" stroke-linecap="round">
+              <path d="M440 168 V118"/>
+              <path d="M250 230 H630"/>
+              <path d="M250 230 V268"/><path d="M440 230 V268"/><path d="M630 230 V268"/>
+            </g>
+            <g stroke-width="1.25">
+              <rect x="300" y="36" width="280" height="72" rx="12" fill="#eaf4f5" stroke="#0d6e7a"/>
+              <rect x="140" y="268" width="220" height="64" rx="12" fill="#fff" stroke="#c9ced4"/>
+              <rect x="330" y="268" width="220" height="64" rx="12" fill="#fff" stroke="#c9ced4"/>
+              <rect x="520" y="268" width="220" height="64" rx="12" fill="#fff" stroke="#c9ced4"/>
+            </g>
+            <g text-anchor="middle">
+              <text x="440" y="66" font-size="16" font-weight="600" fill="#0d6e7a">ESP32-S3</text>
+              <text x="440" y="88" font-size="12.5" fill="#4d6f74">Wire nos GPIO 8 e 9 · Wire1 nos GPIO 11 e 13</text>
+              <text x="250" y="296" font-size="15" font-weight="500" fill="#0f1215">MCP23017 · 0x20</text>
+              <text x="250" y="316" font-size="12.5" fill="#6b737c">Wire1 · 16 saídas</text>
+              <text x="440" y="296" font-size="15" font-weight="500" fill="#0f1215">2 × PCF8574</text>
+              <text x="440" y="316" font-size="12.5" fill="#6b737c">Wire · 0x20 e 0x24</text>
+              <text x="630" y="296" font-size="15" font-weight="500" fill="#0f1215">2 × ADS1115</text>
+              <text x="630" y="316" font-size="12.5" fill="#6b737c">Wire · 0x48 e 0x49</text>
+            </g>
+          </svg>
+        </div>
+        <p class="figcap">O display SH1107, endereço 0x3C, também fica no barramento Wire. O diagrama não inclui modelo comercial de sensor, fonte ou bateria.</p>
+
+        <h3>Barramentos</h3>
+        <p>No boot, o firmware abre dois I²C. <code>Wire.begin</code> usa os pinos SDA 8 e SCL 9. <code>Wire1.begin</code> usa SDA 11 e SCL 13. Os dois relógios ficam em 100 kHz. O MCP23017 mora só no segundo barramento, no endereço 0x20. Um PCF8574 usa o mesmo número 0x20, mas no primeiro barramento. São chips diferentes em fios diferentes.</p>
+        <p class="src">estado_boot.cpp, linhas 49 e 53. defines.h, linhas 14, 15, 16, 17 e 23. dispositivos_mcp.cpp, begin_I2C com Wire1. dispositivos_pcf.h, linhas 10 e 11. dispositivos_mcp.h, linha 10.</p>
+
+        <dl class="spec">
+          <div><dt>Controlador</dt><dd>ESP32-S3. O README do firmware cita o módulo ESP32-S3-WROOM-1, dois núcleos, e a base JNG-E / ENELTEC JOKER.<small>README, seções Hardware Alvo e Hardware e Mapeamento. Núcleos no src/main.cpp.</small></dd></div>
+          <div><dt>Flash na compilação</dt><dd>16 MB, sistema de arquivos LittleFS, tabela custom_partitions.csv.<small>platformio.ini, linhas 47 a 49.</small></dd></div>
+          <div><dt>Partições no CSV</dt><dd>app0 e app1 com 0x300000 cada uma. A partição de dados se chama spiffs e tem 0x9D0000. O README resume isso como 4 MB de aplicação, 9,9 MB de arquivos e 2 MB de OTA. O número que vale para o build é o do CSV.<small>custom_partitions.csv, linhas 3, 4 e 6. Divergência com o README.</small></dd></div>
+          <div><dt>PSRAM</dt><dd>O platformio.ini liga a PSRAM. O README fala em 8 MB de PSRAM e 512 KB de SRAM. O tamanho montado na placa de campo está a confirmar.<small>platformio.ini, linha 55. README, Hardware Alvo.</small></dd></div>
+          <div><dt>Display</dt><dd>SH1107, 128 por 128, endereço 0x3C.<small>lib/display/src/display.h, linhas 49, 50 e 52.</small></dd></div>
+          <div><dt>Modem</dt><dd>O código seleciona o SIM7080 e usa Serial0, com baud padrão 115200. O README ainda aponta TX no GPIO 43 e RX no GPIO 44.<small>defines.h, linhas 27, 28 e 31.</small></dd></div>
+          <div><dt>3 V dos módulos</dt><dd>No boot o GPIO 47 vai para nível alto, com o comentário de habilitar a alimentação de 3,3 V dos módulos externos.<small>defines.h, linha 21. estado_boot.cpp, linhas 44 e 45.</small></dd></div>
+          <div><dt>RTC</dt><dd>O README lista um DS1307 no endereço 0x68, no Wire, como reserva quando o NTP não está disponível. Se esse chip está soldado na máquina de campo está a confirmar.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="alimentacao">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Energia</p>
+        <h2>O que o desenho nomeia</h2>
+      </div>
+      <div class="body">
+        <p>Na folha de alimentação aparecem os rótulos Fonte-Chaveada, Painel Solar 1, Painel Solar 2, Placa Seletora, Placa Core e Bateria - 3S. São nomes do desenho. O modelo comercial da fonte e o modelo comercial da bateria estão <span class="tag t-apx">A confirmar</span>. O rótulo 3S não diz a química da bateria.</p>
+        <p>O documento de campo já publicado diz que a rede no local é de 220 V, informado pelo dono do produto. O README da placa seletora descreve uma entrada A de 110/220 V para 12 V em corrente contínua, além de 12 V direto, gerador, MPPT solar e geração manual. Se a seletora, os painéis e a bateria do desenho são os que estão instalados está <span class="tag t-apx">A confirmar</span>.</p>
+        <p class="src">Alimentacao.kicad_sch, propriedades Value desses símbolos. Rede de 220 V: index.html deste repositório, seção Hidráulica, fonte "Informado pelo dono do produto". Seletora: README de YB-modulo-basico-pcb-seletor-de-alimentacao-publico.</p>
+        <div class="callout warn">
+          <h3>Faixas de tensão no arquivo do repositório</h3>
+          <p>Os dois JSON do firmware trazem os mesmos números de tensão: alimentação normal 12,4, baixo 10,0 e muito baixo 8,0; bateria normal 12,3, baixo 10,5 e muito baixo 10,0. A comparação que desligaria a bomba por tensão baixa está comentada no código e substituída por um valor fixo verdadeiro. Essas faixas são do arquivo do repositório. O que está gravado na placa de campo está a confirmar.</p>
+        </div>
+        <p class="src">data/config.json, linhas 81 a 90. data/config-padrao-fabrica.json, linhas 79 a 88. estado_controlar_tratamento.cpp, linha 121, onde <code>bomba_eletrica_tensao_normal</code> recebe <code>true</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sensores">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Campo</p>
+        <h2>Sensores no desenho</h2>
+      </div>
+      <div class="body">
+        <p>A folha de sensores desenha um Sensor de Fluxo, dois sensores de nível, Transdutor 1, Transdutor 2 e a Placa Core. Textos no desenho citam PT100, PT101, PT102 e PT103. Não há um texto PT104 nessa folha. O firmware lê cinco canais de pressão, do PT100 ao PT104. O quinto canal no desenho de campo está <span class="tag t-apx">A confirmar</span>.</p>
+        <p>Nenhum desses símbolos traz fabricante ou código de catálogo. O modelo do sensor de pressão e o modelo do sensor de vazão estão <span class="tag t-apx">A confirmar</span>. O desenho também escreve LSL200, LSLL200 e VALVULA 1 a 4. Esses textos não são os índices 0 a 15 do MCP23017. A função hidráulica de cada índice, quando aparece na página de firmware, vem do documento de campo informado pelo dono do produto, não deste esquemático.</p>
+        <p class="src">Sensores.kicad_sch: valores dos símbolos e textos PT100 a PT103, LSL200, LSLL200 e VALVULA. Canais do firmware: lib/dispositivos_ads/src/dispositivos_ads.cpp, linhas 12 a 20.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="passos">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Depois</p>
+        <h2>Próximos passos pensados</h2>
+        <p class="q">Ideias em conversa. Nada disso está definido.</p>
+      </div>
+      <div class="body">
+        <div class="callout">
+          <h3>Não é especificação</h3>
+          <p>LoRa, uma placa nova e a Heltec V4 aparecem aqui porque foram pensados como caminho. Não há modelo fechado, fornecedor fechado nem data. Qualquer número de pino, rádio ou placa nesta lista está <span class="tag t-nd">Não definido</span>.</p>
+        </div>
+        <dl class="spec">
+          <div><dt>LoRa</dt><dd>Na reunião de estratégia de 9/10/2026, com o David, o LoRa na placa atual foi tratado como inviável. A direção comentada foi uma placa mais genérica, de mercado. Especificação <span class="tag t-apx">A confirmar</span>.</dd></div>
+          <div><dt>Placa nova</dt><dd>A mesma conversa aponta uma placa mais genérica. Qual placa, de quem, e se ela substitui a Joker, está <span class="tag t-nd">Não definido</span>.</dd></div>
+          <div><dt>Heltec V4</dt><dd>Entra nesta lista como passo pensado. A reunião de 9/10 não registra a Heltec V4 como placa escolhida. Especificação <span class="tag t-apx">A confirmar</span>.</dd></div>
+        </dl>
+        <p class="src">Reunião de 9/10/2026, notas em Granola. A reunião semanal de 13/10/2026 não trata de LoRa, placa nova nem Heltec.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    <p>Yara · Wara Tech. Elétrica e hardware do documento de produto. Fontes: repositórios públicos com sufixo -publico e o documento de campo deste repositório. Sem senha, token ou credencial.</p>
+  </div>
+</footer>
+</body>
+</html>

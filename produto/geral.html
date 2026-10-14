@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yara: Geral · Wara Tech</title><link rel="stylesheet" href="estilo.css"></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="geral.html">Yara<span>doc de produto</span></a><nav class="pages" aria-label="Páginas"><a href="geral.html" class="cur" aria-current="page"><i>01</i>Geral</a><a href="hidraulica.html"><i>02</i>Hidráulica</a><a href="eletrica.html"><i>03</i>Elétrica</a><a href="firmware.html"><i>04</i>Firmware</a></nav></div></header>
+<div class="subnav"><div class="wrap"><a href="#yara">01 O que é</a><a href="#piloto">02 Piloto</a><a href="#demanda">03 Demanda</a><a href="#fluxo">04 Fluxo</a><a href="#meta">05 Meta</a><a href="#situacao">06 Situação</a></div></div>
+<main id="topo"><div class="hero"><div class="wrap"><p class="eyebrow">Wara Tech · Doc de produto · Geral</p><h1>Yara: tratamento de água para gado</h1><p class="lede">A Yara num lugar só: o que ela é, o piloto, a demanda de água, a meta de qualidade e em que ponto está o desenvolvimento. Documento vivo, atualizado conforme o projeto avança.</p><div class="facts"><div><b>56 animais tratados</b><span>uma única Yara</span></div><div><b>1.120 L/h</b><span>vazão de projeto</span></div><div><b>90 dias</b><span>de operação, mais ~2 semanas de instalação</span></div><div><b>Dez/2026 ou jan/2027</b><span>início; a Wara tenta janeiro</span></div></div><div class="guide"><div class="box"><h3>Nesta página</h3><ol><li><a href="#yara">O que é a Yara</a></li><li><a href="#piloto">O piloto</a></li><li><a href="#demanda">A demanda de água</a></li><li><a href="#fluxo">Visão geral do fluxo</a></li><li><a href="#meta">Meta de qualidade</a></li><li><a href="#situacao">Situação e histórico</a></li></ol></div><div class="box"><h3>Como ler os dados</h3><div class="legend">
+<span class="tag t-med">Medido</span><span>Valor medido, com laudo ou método registrado.</span>
+<span class="tag t-apx">Aproximado</span><span>Valor com “~” na fonte, sem método registrado.</span>
+<span class="tag t-apx">Estimativa</span><span>Cálculo nosso a partir de premissas; não medido.</span>
+<span class="tag t-rel">Relato</span><span>Observação ou registro da equipe.</span>
+<span class="tag t-fab">Fabricante</span><span>Etiqueta, catálogo ou nota fiscal; não medido na máquina.</span>
+<span class="tag t-nd">Desconhecido</span><span>Dado que nenhuma fonte tem.</span>
+<span class="tag t-apx">A confirmar</span><span>Registro ainda não verificado.</span>
+<span class="tag t-div">Divergência</span><span>Fontes dizem coisas diferentes. Mostramos as versões, sem escolher.</span></div></div></div></div></div><section id="yara"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>01</b>O que é</p><h2>O que é a Yara</h2><p class="q">A máquina e a capacidade registrada.</p></div><div class="body">
+<p class="lead">A Yara é a estação de tratamento de água para gado da Wara Tech. A água passa por uma bomba e segue por duas linhas em paralelo, cada uma com pré-filtro e ultrafiltração (UF). As duas linhas se juntam e vão direto ao bebedouro com boia, sem reservatório intermediário.</p>
+<p>A máquina tem controle próprio (ESP32-S3, válvulas motorizadas em quantidade a confirmar) e envia telemetria para a nuvem. Os detalhes de elétrica, sensores e firmware estão nas páginas <a href="eletrica.html">Elétrica</a> e <a href="firmware.html">Firmware</a>.</p>
+<h3 class="sub" style="margin-top:40px">Capacidade registrada</h3>
+<dl class="spec">
+<div><dt>Versão de campo, teto de produto</dt><dd>~2.000 L/h <span class="tag t-rel">Relato</span><small>O painel indica vazão baixa abaixo de ~2.000 L/h. Fonte: levantamento de capacidade da Yara (set/2026) e panorama de peças.</small></dd></div>
+<div><dt>UF, vazão nominal</dt><dd>~3.000 L/h por linha <span class="tag t-apx">Aproximado</span><small>As mesmas que o Rodrigo sempre usou na Água Camelo; modelo e fabricante não registrados. Fonte: Google Doc “Yara: dúvidas de filtragem (v2)”.</small></dd></div>
+<div><dt>Bomba, entrega medida</dt><dd>~1.500 a 1.700 L/h <span class="tag t-med">Medido</span><small>Dancor AP3C, ~1 CV, medida com balde (erro &lt; 100 L/h) em 05/10/2026. Fonte: histórico de campo v2.</small></dd></div>
+<div><dt>Versão compacta anterior</dt><dd>540 L/h <span class="tag t-fab">Fabricante</span><small>Versão compacta (bomba 12 V), descrita no manual antigo. Não é a máquina de campo. Fonte: doc público da Yara de campo; spec sheet YARA UF 3000.</small></dd></div>
+</dl>
+<p class="src">Fontes: doc público da Yara de campo (wara-tech.github.io/yara-campo-publico); levantamento de capacidade, custo e escala da Yara (set/2026); histórico de campo v2 (09/10/2026).</p></div></div></section><section id="piloto"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>02</b>Piloto</p><h2>O piloto</h2><p class="q">Quantos animais, quantos bebedouros, quanto tempo.</p></div><div class="body">
+<div class="stats"><div><div class="stat">56</div><div class="stat-l">animais tratados, abastecidos pela Yara</div></div><div><div class="stat">2 <small>ou</small> 4</div><div class="stat-l">bebedouros Intergado no piloto, com 28 ou 14 animais por bebedouro</div></div><div><div class="stat">1</div><div class="stat-l">Yara para todos os bebedouros do piloto</div></div><div><div class="stat">90 <small>dias</small></div><div class="stat-l">de operação, mais cerca de 2 semanas de instalação</div></div></div>
+<dl class="spec">
+<div><dt>Animais</dt><dd>56 animais tratados e 56 no grupo controle, o mesmo número do grupo teste. A Yara abastece só os tratados; o grupo controle não recebe água da Yara.<small>Grupo controle: Rodrigo, 14/10/2026.</small></dd></div>
+<div><dt>Bebedouros</dt><dd>Bebedouros individuais Intergado com boia, na baia do piloto: 2 ou 4 no piloto (28 ou 14 animais por bebedouro).<small>Volume de cada bebedouro: <span class="tag t-nd">Desconhecido</span> (nenhuma fonte registra).</small></dd></div>
+<div><dt>Duração</dt><dd>90 dias de operação, mais cerca de 2 semanas de instalação e calibração.</dd></div>
+<div><dt>Início</dt><dd>Dezembro de 2026 ou janeiro de 2027. A Wara está tentando janeiro: dezembro é problemático depois do dia 20.</dd></div>
+<div><dt>Objetivo do piloto</dt><dd>Tirar a qualidade da água como variável na medição de ganho de peso dos animais tratados frente ao grupo controle.</dd></div>
+<div><dt>Energia na baia</dt><dd>Rede elétrica fraca, segundo a equipe da fazenda (22/04/2026); alternativa registrada: placas solares com bateria, ainda não testada. <span class="tag t-rel">Relato</span></dd></div>
+<div><dt>Pressão da rede na baia</dt><dd>Rede por gravidade; pressão e vazão nunca medidas. <span class="tag t-nd">Desconhecido</span></dd></div>
+</dl>
+<p class="src">Fontes: Google Doc “Yara: dúvidas de filtragem (v2)”, 12/10/2026; esclarecimento do Rodrigo sobre o tamanho do piloto, 12/10/2026; Rodrigo, 14/10/2026 (bebedouros e grupo controle); reunião semanal de 13/10/2026 (início em janeiro); relatório da visita técnica (10/03/2026) e status técnico (22/04/2026).</p></div></div></section><section id="demanda"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>03</b>Demanda</p><h2>A demanda de água</h2><p class="q">Quanto o piloto bebe e a vazão que a Yara precisa repor.</p></div><div class="body">
+<div class="stats"><div><div class="stat">40 <small>L/cab·dia</small></div><div class="stat-l">premissa de consumo</div></div><div><div class="stat">2.240 <small>L/dia</small></div><div class="stat-l">56 animais × 40 L</div></div><div><div class="stat">2 × 1.120 <small>L</small></div><div class="stat-l">dois momentos de consumo, manhã e tarde</div></div><div><div class="stat">1.120 <small>L/h</small></div><div class="stat-l">vazão de projeto, cada momento reposto em 1 h</div></div></div>
+<h3 class="sub">De onde vem a vazão de reposição</h3>
+<div class="prose">
+<p>O ponto de partida é a equação de consumo de água para zebuínos do BR-CORTE 2023 (cap. 14), baseada em Zanetti et al. (2019), com Nelore criados em condições tropicais:</p>
+<div class="formula">CA (L/dia) = 9,449 + 0,190 × PC<sup>0,75</sup> + 0,271 × T<sub>máx</sub> − 0,259 × UR + 0,489 × CMS</div>
+<p>PC<sup>0,75</sup> é o peso corporal metabólico (kg<sup>0,75</sup>), T<sub>máx</sub> a temperatura máxima (°C), UR a umidade relativa do ar (%) e CMS o consumo de matéria seca (kg/dia). Para animais de 450 a 500 kg, com 35 °C, 70% de umidade e 8,5 a 11 kg de matéria seca por dia, a equação dá cerca de 24 a 26 L por cabeça por dia. Esse cálculo é nosso, e a umidade e a ingestão são premissas <span class="tag t-apx">Estimativa</span>. Nenhuma das nossas fontes valida a equação no Mato Grosso. Por isso adotamos 40 L por cabeça por dia, número sustentado pela Embrapa: é o consumo que a Embrapa usa para um bovino de 450 kg (Minho e Gaspar, “Água na pecuária”, cap. 5), e é o maior consumo de dessedentação entre 17 confinamentos de Nelore em São Paulo, cuja média foi de 37,8 L por animal por dia (Morelli, Palhares et al., Embrapa Pecuária Sudeste).</p>
+<p>A premissa de projeto é que o consumo se divide em dois momentos, um de manhã e outro à tarde, com metade do volume diário em cada um. Cada momento é reposto em 1 h:</p>
+<div class="formula">56 cabeças × 40 L/cab/dia = 2.240 L/dia<br/>2.240 L/dia ÷ 2 momentos = 1.120 L por momento<br/>1.120 L reposto em 1 h → vazão de projeto = 1.120 L/h</div>
+<p>Os dois momentos e a reposição em 1 h são premissa de projeto, não comportamento medido no piloto. As fontes vão na mesma direção: a Embrapa registra que a ingestão se concentra no fim da manhã e nas horas mais quentes, e que um animal pode beber quase 50% do volume diário em duas horas; o manual de confinamento da MLA (Austrália) registra dois períodos de consumo por dia, ligados ao trato. Uma reposição de 2.000 L/h cobre a vazão de projeto com folga: é cerca de 1,8 vez os 1.120 L/h e repõe os 1.120 L de cada momento em cerca de 34 minutos. A folga cobre dias mais quentes, desperdício e o erro das estimativas.</p>
+</div>
+<p class="src">Fontes: BR-CORTE 2023, cap. 14 (brcorte.com.br); Zanetti et al. (2019); Embrapa, “Água na pecuária”, cap. 5 (Minho e Gaspar); Morelli, Palhares, Costa Junior e Gameiro, “Pegada hídrica azul de bovinos em confinamento” (Embrapa Pecuária Sudeste); MLA, Feedlot Design Manual, cap. 4 (2016). Cálculos da Wara Tech.</p></div></div></section><section id="fluxo"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>04</b>Fluxo</p><h2>Visão geral do fluxo</h2><p class="q">O caminho da água, da rede da fazenda ao bebedouro.</p></div><div class="body">
+<p class="lead">A água da rede da fazenda entra pela bomba, passa por uma válvula de retenção e segue para duas linhas, cada uma com pré-filtro e UF. A água tratada vai direto ao bebedouro, que tem boia.</p>
+<p class="swipe">Deslize o diagrama para o lado →</p>
+<div class="fig"><svg viewBox="0 0 980 190" font-family="InterDoc,Inter,sans-serif" role="img" aria-label="Fluxo geral: água da rede, bomba, válvula de retenção, duas linhas, cada uma com pré-filtro e UF, bebedouro com boia">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9aa1a9"/></marker></defs>
+<g font-size="13" fill="#0f1215" font-weight="500" text-anchor="middle">
+<rect x="10" y="70" width="130" height="54" rx="10" fill="#f3f4f5" stroke="#e8e9eb"/><text x="75" y="94">Água a tratar</text><text x="75" y="112" font-size="11" fill="#6b737c" font-weight="400">rede da fazenda</text>
+<rect x="180" y="70" width="110" height="54" rx="10" fill="#fff" stroke="#c3c9cf"/><text x="235" y="94">Bomba</text><text x="235" y="112" font-size="11" fill="#6b737c" font-weight="400">+ retenção 3/4"</text>
+<rect x="340" y="18" width="380" height="58" rx="10" fill="#eaf4f5" stroke="#0d6e7a"/><text x="530" y="42">Linha 1 · pré-filtro + UF</text><text x="530" y="60" font-size="11" fill="#0a5560" font-weight="400">filtra, ou é limpa pela outra linha</text>
+<rect x="340" y="118" width="380" height="58" rx="10" fill="#eaf4f5" stroke="#0d6e7a"/><text x="530" y="142">Linha 2 · pré-filtro + UF</text><text x="530" y="160" font-size="11" fill="#0a5560" font-weight="400">filtra, ou é limpa pela outra linha</text>
+<rect x="780" y="70" width="190" height="54" rx="10" fill="#fff" stroke="#2f7d4f"/><text x="875" y="94">Bebedouro com boia</text><text x="875" y="112" font-size="11" fill="#2f7d4f" font-weight="400">ponto de entrega da meta</text></g>
+<g stroke="#9aa1a9" stroke-width="1.6" fill="none" marker-end="url(#ar)"><path d="M140 97H178"/><path d="M290 97H315V47H338"/><path d="M315 97V147H338"/><path d="M720 47H750V97H778"/><path d="M720 147H750V97"/></g>
+<text x="530" y="104" text-anchor="middle" font-size="11.5" fill="#6b737c" font-family="InterDoc,Inter,sans-serif">duas linhas</text></svg></div>
+<p class="figcap">Diagrama simplificado, desenhado por nós. A composição de cada linha mudou ao longo do desenvolvimento; as três configurações (original, de hoje e do piloto) estão na página <a href="hidraulica.html#config">Hidráulica</a>. O trem de tratamento do piloto está a definir com o Gabriel Poydo, consultor de tratamento de água.</p>
+<p class="src">Fontes: doc público da Yara de campo; vídeo da montagem de 03/10/2026; válvula de retenção (Manu, 13/10/2026); retrolavagem cruzada descartada (Rodrigo, 14/10/2026).</p></div></div></section><section id="meta"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>05</b>Meta</p><h2>Meta de qualidade na entrada do bebedouro</h2><p class="q">A régua que a água tratada precisa atingir.</p></div><div class="body">
+<div class="callout"><p class="callout-h">Ponto de entrega</p><p>A meta vale para a água na entrada do bebedouro, isto é, na saída da Yara. A água dentro do cocho, que o animal suja de novo ao beber, não é objeto do tratamento.</p></div>
+
+<p class="lead">“Nenhuma régua sozinha aprova a água do boi. A NRC olha o que está dissolvido: desempenho (GMD) e toxicidade. A potabilidade olha o que está vivo: patógenos. Água ideal = passar nas duas e ainda estar fresca, limpa e à vontade.”</p>
+<p>A régua vale para a água que chega ao bebedouro, na saída do tratamento. A água dentro do cocho, depois do contato com os animais, não é medida contra esta meta.</p>
+<div class="tw">
+<table class="meta">
+<thead><tr><th>Parâmetro</th><th class="c-i">Ideal</th><th class="c-a">Aceitável</th><th class="c-e">Evitar</th><th>Régua</th></tr></thead>
+<tbody>
+<tr><td>TDS / salinidade</td><td class="c-i">&lt; 1.000 ppm</td><td class="c-a">1.000 – 3.000</td><td class="c-e">&gt; 3.000</td><td class="r">NRC</td></tr>
+<tr><td>Sulfato (SO₄)</td><td class="c-i">&lt; 500 ppm</td><td class="c-a">500 – 1.000</td><td class="c-e">&gt; 1.500 · risco PEM</td><td class="r">NRC</td></tr>
+<tr><td>Nitrato (NO₃-N)</td><td class="c-i">&lt; 10 ppm</td><td class="c-a">10 – 20</td><td class="c-e">&gt; 40</td><td class="r">NRC</td></tr>
+<tr><td>pH</td><td class="c-i">6,5 – 8,0</td><td class="c-a">6,0 – 8,5</td><td class="c-e">&lt; 5,5 ou &gt; 9</td><td class="r">NRC</td></tr>
+<tr><td>Metais tóxicos</td><td class="c-i">As &lt;0,2 · Pb &lt;0,1 · F &lt;2,0</td><td class="c-a">—</td><td class="c-e">acima dos limites</td><td class="r">NRC</td></tr>
+<tr><td>E. coli</td><td class="c-i">Ausência</td><td class="c-a">—</td><td class="c-e">qualquer presença</td><td class="r">888</td></tr>
+<tr><td>Coliformes totais</td><td class="c-i">Ausência</td><td class="c-a">—</td><td class="c-e">qualquer presença</td><td class="r">888</td></tr>
+<tr><td>Físico / manejo</td><td class="c-i">Fresca, limpa, ad libitum</td><td class="c-a">—</td><td class="c-e">quente, suja, acesso restrito</td><td class="r">Prát.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="figcap">Valores de referência para bovinos de corte. Ideal · Aceitável (monitorar) · Evitar: corrige consumo, GMD ou saúde. Texto e valores como estão no PDF.</p>
+<h3 class="sub">As duas réguas</h3>
+<div class="two">
+<div class="card">
+<p class="eyebrow" style="margin-bottom:6px">Régua 1</p>
+<h3>Química &amp; nutricional · NRC / NASEM</h3>
+<dl class="spec">
+<div><dt>Mandato</dt><dd>O que está dissolvido na água e como afeta consumo, ganho de peso (GMD) e saúde metabólica.</dd></div>
+<div><dt>Mede</dt><dd>TDS/salinidade · sulfato · nitrato · pH · metais tóxicos · toxinas de alga</dd></div>
+<div><dt>Não cobre</dt><dd>Bactéria · vírus · turbidez</dd></div>
+<div><dt>Origem</dt><dd>NRC, “Nutrients and Toxic Substances in Water for Livestock and Poultry” (1974); NASEM, Nutrient Requirements of Beef Cattle (2016).</dd></div>
+</dl>
+</div>
+<div class="card">
+<p class="eyebrow" style="margin-bottom:6px">Régua 2</p>
+<h3>Sanitária &amp; microbiológica · Portaria 888/2021 + EPA / WHO</h3>
+<dl class="spec">
+<div><dt>Mandato</dt><dd>Segurança sanitária: ausência de patógenos na água destinada ao consumo animal.</dd></div>
+<div><dt>Mede</dt><dd>E. coli · coliformes totais · carga microbiana · turbidez (indicador)</dd></div>
+<div><dt>Complementa</dt><dd>Preenche exatamente o vão que a NRC deixa em aberto.</dd></div>
+<div><dt>Origem</dt><dd>Portaria GM/MS 888/2021 (potabilidade, Brasil); recomendações EPA / WHO para água de dessedentação.</dd></div>
+</dl>
+</div>
+</div>
+<p class="src">Fonte: “A água ideal para o gado”, Wara Tech, referência técnica, jun/2026. Fontes citadas no PDF: NRC (1974) · NASEM (2016) · Portaria GM/MS 888/2021 · EPA / WHO · OSU &amp; NDSU Extension. Síntese do PDF: “Química aprovada ≠ água potável. Só as duas réguas juntas definem a água ideal para o gado.” Lacunas do próprio PDF: <a class="dref" href="hidraulica.html#d13">D13</a> <a class="dref" href="hidraulica.html#d14">D14</a></p>
+
+<h3 class="sub" style="margin-top:56px">A água a tratar, em resumo</h3>
+<p>Nas três amostras de água antes do tratamento (captação em 24/11/2025 e 14/05/2026; reservatório em 14/05/2026), houve E. coli presente; a meta é ausência. A água da rede na chegada à baia do piloto nunca foi medida.</p>
+<div class="stats sm"><div><div class="stat">198 · 20</div><div class="stat-l">E. coli na captação (NMP/100 mL) <span class="tag t-med">Medido</span></div></div><div><div class="stat">987</div><div class="stat-l">E. coli no reservatório (NMP/100 mL) <span class="tag t-med">Medido</span></div></div><div><div class="stat">11,40 <small>NTU</small></div><div class="stat-l">turbidez no reservatório <span class="tag t-med">Medido</span></div></div><div><div class="stat">3 de 3</div><div class="stat-l">amostras com E. coli presente <span class="tag t-med">Medido</span></div></div></div>
+<p class="src">Fontes: resultados de análise de 24/11/2025 e 14/05/2026, consolidados na análise técnica da Wara Tech (jun/2026). Os laudos não são publicados aqui.</p></div></div></section><section id="situacao"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>06</b>Situação</p><h2>Situação do desenvolvimento e histórico</h2><p class="q">Onde a Yara está hoje e como chegou aqui.</p></div><div class="body">
+<dl class="spec">
+<div><dt>Hoje</dt><dd>A Yara saiu do teste de campo e volta à PUC para revisão da hidráulica. O trem de tratamento do piloto está a definir com o Gabriel Poydo.</dd></div>
+<div><dt>Firmware</dt><dd>A máquina roda a versão 1.0.3 (confirmado em 07/10/2026). Detalhes em <a href="firmware.html">Firmware</a>.</dd></div>
+<div><dt>Chegada à PUC</dt><dd>A Yara chega à PUC em 19/10/2026 (Rodrigo, 14/10/2026).</dd></div>
+</dl>
+<h3 class="sub" style="margin-top:44px">Histórico</h3>
+<ul class="tl muted">
+<li><div class="d"><b>Antes</b></div><div><h3>Versão compacta</h3><p style="margin:0;color:var(--ink2);font-size:14.5px">Versão compacta de 540 L/h, com bomba de 12 V, descrita no manual antigo.</p></div></li>
+<li><div class="d"><b>Jul 2026</b></div><div><h3>Versão de campo montada</h3><p style="margin:0;color:var(--ink2);font-size:14.5px">Duas linhas iguais, cada uma com filtro de mídia e UF; válvulas motorizadas (quantidade a confirmar). A ideia de uma linha lavar a UF da outra foi descartada depois (07 e 14/10/2026).</p></div></li>
+<li><div class="d"><b>13–27/09</b></div><div><h3>Primeira janela de campo</h3><p style="margin:0;color:var(--ink2);font-size:14.5px">Teste em outra fazenda, não a do piloto, com água de concessionária. UFs sujas; limpeza recuperou parte da vazão.</p></div></li>
+<li><div class="d"><b>02–04/10</b></div><div><h3>Visita de campo e mudança das linhas</h3><p style="margin:0;color:var(--ink2);font-size:14.5px">Mídia escureceu a água e as UFs entupiram. Um vaso de mídia foi trocado por filtro de disco; entraram a válvula de 3 vias e a boia no bebedouro.</p></div></li>
+<li><div class="d"><b>05–07/10</b></div><div><h3>Testes e decisão de retirar</h3><p style="margin:0;color:var(--ink2);font-size:14.5px">UF colmatou de novo. Caminho considerado mais seguro em 05/10: disco + membrana, sem filtro de mídia.</p></div></li>
+<li><div class="d"><b>07 e 09/10</b></div><div><h3>Calls com o Gabriel Poydo</h3><p style="margin:0;color:var(--ink2);font-size:14.5px">Recomendações de pré-tratamento, lavagem das UFs e uso de cloro, registradas na página <a href="hidraulica.html#duvidas">Hidráulica</a>.</p></div></li>
+<li><div class="d"><b>13/10</b></div><div><h3>Reunião semanal</h3><p style="margin:0;color:var(--ink2);font-size:14.5px">Início do piloto passa a ser tentado em janeiro. Recalibração dos sensores de pressão em laboratório (ver <a href="firmware.html">Firmware</a>).</p></div></li>
+<li><div class="d"><b>Dez/Jan</b></div><div><h3>Piloto</h3><p style="margin:0;color:var(--ink2);font-size:14.5px">~2 semanas de instalação e 90 dias de operação na fazenda do piloto.</p></div></li>
+</ul>
+<p class="src">Fontes: doc público da Yara de campo; histórico de campo da Yara v2 (09/10/2026); calls de 05/10 a 09/10/2026; reunião semanal de 13/10/2026; data de chegada à PUC: Rodrigo, 14/10/2026.</p></div></div></section></main>
+<footer><div class="wrap"><p class="end">Wara Tech · Yara: Geral · documento vivo, atualizado em 14/10/2026 · Páginas: <a href="geral.html">Geral</a> · <a href="hidraulica.html">Hidráulica</a> · <a href="eletrica.html">Elétrica</a> · <a href="firmware.html">Firmware</a></p></div></footer>
+<script>(function(){var l=[].slice.call(document.querySelectorAll('.subnav a'));var m={};l.forEach(function(a){m[a.getAttribute('href').slice(1)]=a});if(!('IntersectionObserver' in window))return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){l.forEach(function(a){a.classList.remove('on')});var a=m[e.target.id];if(a)a.classList.add('on')}})},{rootMargin:'-45% 0px -50% 0px'});document.querySelectorAll('section[id]').forEach(function(s){o.observe(s)})})();</script></body></html>
