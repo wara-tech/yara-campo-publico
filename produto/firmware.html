@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yara · Firmware · Wara Tech</title>
+<meta name="description" content="Firmware de campo da Yara: branch campo-1.0.3, corte de pressão e o que o código realmente faz.">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Yara <span>produto</span></a>
+    <nav>
+      <a href="index.html"><i>01</i>Geral</a>
+      <a href="hidraulica.html"><i>02</i>Hidráulica</a>
+      <a href="eletrica.html"><i>03</i>Elétrica</a>
+      <a href="firmware.html" class="on"><i>04</i>Firmware</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="wrap hero">
+    <p class="eyebrow">Wara Tech · firmware de campo</p>
+    <h1>O programa que a máquina executa</h1>
+    <p class="lede">O texto abaixo descreve a branch campo-1.0.3, o código apontado como o que roda em campo. Quando o repositório guarda um número e a placa pode guardar outro, o valor da máquina fica a confirmar.</p>
+    <div class="facts">
+      <div><b>Branch</b><span>campo-1.0.3</span></div>
+      <div><b>Corte decidido</b><span>4 bar em 13/10/2026</span></div>
+      <div><b>Padrão no arquivo</b><span>3, sem unidade na linha</span></div>
+      <div><b>Valor na placa</b><span>a confirmar</span></div>
+    </div>
+  </div>
+
+  <section id="codigo">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Fonte</p>
+        <h2>Qual código</h2>
+      </div>
+      <div class="body">
+        <p>O código lido aqui é o da branch <a href="https://github.com/wara-tech/Yara_Firmware-publico/tree/campo-1.0.3"><code>campo-1.0.3</code></a> do repositório Yara_Firmware-publico. O documento de campo deste repositório diz que a máquina roda a 1.0.3. A compilação é Arduino no PlatformIO, ambiente <code>esp32-s3-devkitc-1</code>, plataforma <code>espressif32</code> 6.11, monitor em 115200.</p>
+        <p class="src">platformio.ini, linhas 11 a 15. Versão de campo 1.0.3: index.html deste repositório, seção Telemetria.</p>
+        <h3>Várias strings de versão</h3>
+        <p>O mesmo código não usa um único texto de versão. Qual string a máquina mostra está <span class="tag t-apx">A confirmar</span>.</p>
+        <div class="tw">
+          <table>
+            <thead><tr><th>Onde</th><th>Texto</th><th>Linha</th></tr></thead>
+            <tbody>
+              <tr><td>defines.h</td><td><code>FIRMWARE_VERSION</code> vale <code>v2.1.4-alpha</code></td><td class="n">4</td></tr>
+              <tr><td>README da branch</td><td>Selo e título também dizem 2.1.4-alpha</td><td class="n">selo</td></tr>
+              <tr><td>data/version.json</td><td>Campo <code>version</code> vale <code>0.9.0</code></td><td class="n">2</td></tr>
+              <tr><td>estado_boot.cpp</td><td>A serial imprime <code>Versão 0.9.0</code></td><td class="n">23</td></tr>
+              <tr><td>Nome da branch</td><td>campo-1.0.3</td><td class="n">git</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="src">O boot também lê <code>/version.json</code> da memória da placa, em estado_boot.cpp, linha 128. O arquivo do repositório não prova o texto gravado na máquina.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pressao">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Segurança</p>
+        <h2>Corte de pressão</h2>
+        <p class="q">A decisão da reunião e o número do arquivo não são a mesma frase.</p>
+      </div>
+      <div class="body">
+        <div class="callout">
+          <h3>Decisão</h3>
+          <p>Corte decidido em 4 bar na reunião de 13/10/2026.</p>
+        </div>
+        <p>Logo em seguida, o valor padrão que aparece no código: em <code>data/config.json</code>, linha 78, a chave <code>pressao_bomba.estado_muito_alto</code> vale <span class="num">3</span>. A linha não declara a unidade.</p>
+        <p class="src">data/config.json, linhas 74 a 78, objeto <code>pressao_bomba</code>. Reunião semanal de 13/10/2026 com o David.</p>
+
+        <h3>O corte imediato é configurável</h3>
+        <p>Assim que uma leitura calibrada passa do limite, a bomba desliga. A função <code>ler_sensor_pressao</code> copia <code>parametros_configuracao["pressao_bomba"]["estado_muito_alto"]</code> e compara os cinco canais PT100 a PT104 com esse número. Se algum passa, chama <code>cessar_funcionamento</code> e marca a bomba como desligada por alta pressão.</p>
+        <p>Esse parâmetro não fica só no Git. No boot a placa lê o arquivo <code>/config.json</code> da própria memória e monta <code>parametros_configuracao</code> com ele. O valor configurado na máquina em campo está <span class="tag t-apx">A confirmar</span>.</p>
+        <p class="src">lib/maquina_estado/src/estado_ler.cpp, linha 326. Carregamento do arquivo: lib/maquina_estado/src/estado_boot.cpp, linha 76.</p>
+
+        <div class="callout div">
+          <h3>O arquivo de fábrica do repositório discorda</h3>
+          <p><code>data/config-padrao-fabrica.json</code>, linha 76, guarda <code>pressao_bomba.estado_muito_alto</code> igual a <span class="num">40</span>. Também não declara a unidade. É o arquivo de restauração que vem no repositório, não uma leitura da placa. <span class="tag t-div">Divergência</span></p>
+        </div>
+
+        <h3>A segunda conferência não lê a placa</h3>
+        <p>Depois do corte, o firmware reenvia o comando de cada válvula de processo e espera 15 segundos (<code>TEMPO_AGUARDAR_VERIFICACAO_ALTA_PRESSAO_MS</code>, 15000). Aí compara de novo. Essa segunda comparação não usa <code>estado_muito_alto</code>. A linha que leria o parâmetro está comentada. O código usa o literal <code>3.0</code>.</p>
+        <p>A linha do literal não declara a unidade. Os canais dessa segunda olhada são <code>pressao_entrada</code>, <code>pressao_linha_1</code>, <code>pressao_linha_2</code>, <code>pressao_saida</code> e <code>pressao_concentrado</code>. Se a pressão continua acima do literal, o tratamento é encerrado de novo. O número 4 não está escrito como limite na branch campo-1.0.3.</p>
+        <p class="src">Espera: lib/maquina_estado/src/maquina_estado.h, linha 182. Literal: lib/maquina_estado/src/estado_controlar_tratamento.cpp, linhas 359 e 360. Canais: linhas 361 a 365 do mesmo arquivo.</p>
+
+        <ol class="steps">
+          <li data-n="01"><span>A leitura passa de <code>estado_muito_alto</code>, o número gravado na placa. A bomba desliga na hora.</span></li>
+          <li data-n="02"><span>O firmware reenvia as válvulas e espera 15 s.</span></li>
+          <li data-n="03"><span>Confere de novo contra o literal <code>3.0</code> do código, não contra o parâmetro da placa.</span></li>
+          <li data-n="04"><span>Se continuar acima, encerra o tratamento. Não há religamento automático por esse caminho.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="medicao">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Medição</p>
+        <h2>Pressão e vazão</h2>
+      </div>
+      <div class="body">
+        <p>Dois ADS1115 leem em milivolts, faixa de ±4,096 V, modo contínuo. O módulo 0x48, endereço no GND, leva PT100 a PT103 nos canais 0 a 3. O módulo 0x49, endereço no VCC, leva a tensão da bateria no canal 0, a tensão da bomba no canal 1 e o PT104 no canal 2. O README do módulo associa os nomes de processo: PT100 é <code>pressao_saida</code>, PT101 é <code>pressao_linha_1</code>, PT102 é <code>pressao_linha_2</code>, PT103 é <code>pressao_concentrado</code> e PT104 é <code>pressao_entrada</code>. O código grava esses nomes depois da média.</p>
+        <p class="src">dispositivos_ads.h, linhas 19 e 20. dispositivos_ads.cpp, linhas 12 a 20 e 76. estado_ler.cpp, linhas 344 a 348, nomes de processo. README de lib/dispositivos_ads.</p>
+
+        <p>A conta é milivolt vezes <code>a</code>, mais <code>b</code>, limitada entre 0 e 100 (<code>PRESSAO_VALOR_MINIMO</code> e <code>PRESSAO_VALOR_MAXIMO</code>). A média móvel usa 5 amostras, de 2 em 2 segundos. O modelo comercial do transdutor está <span class="tag t-apx">A confirmar</span>. Nesta branch não há regra de tratar leitura abaixo de 4 mA como zero.</p>
+        <p class="src">estado_ler.cpp, fórmula nas linhas 319 a 323 e média de 5 amostras na linha 12. Limites 0 e 100: maquina_estado.h, linhas 139 e 140. Intervalo de amostra: linha 135 do mesmo arquivo.</p>
+
+        <h3>Diferencial e retrolavagem</h3>
+        <p>Durante o tratamento o código compara quatro diferencias com <code>LIMITE_DIFF_PRESSAO_RETROLAVAGEM</code>, que vale 8. O comentário ao lado chama a unidade de bar. f1 é o módulo da diferença entre linha 1 e entrada (mídia 1). f2 é linha 2 e entrada (mídia 2). f3 é saída e linha 1 (UF 1). f4 é saída e linha 2 (UF 2). Passou do limite, o firmware pede retrolavagem daquele filtro.</p>
+        <p class="src">Limite: maquina_estado.h, linha 183. Contas: estado_ler.cpp, linhas 261 a 264. Disparo: estado_controlar_tratamento.cpp, a partir da checagem de <code>pressao_diferencial_f1</code>.</p>
+
+        <h3>Vazão</h3>
+        <p>O sensor entra no GPIO 38, interrupção na borda de descida, com debounce de 1000 microssegundos. A vazão em litros por minuto é a contagem de pulsos dividida pelo tempo, e esse quociente dividido por 5,33. O volume da sessão é pulsos vezes <code>calibracao_vazao</code>, dividido por 1000. O modelo do sensor de vazão está <span class="tag t-apx">A confirmar</span>. O fator 5,33 está no código. Ele não nomeia um fabricante.</p>
+        <p>Se o tratamento está parado e a vazão fica acima de zero por mais de 30 segundos, o código marca o tratamento como iniciado. O comentário no documento de campo chama isso de caminho da bomba manual.</p>
+        <p class="src">GPIO 38: defines.h, linha 18. Interrupção FALLING: estado_ler.cpp, linha 38. Debounce: maquina_estado.h, linha 132. Fator 5,33: estado_ler.cpp, linha 283. Volume: linha 125 do mesmo arquivo. 30 s: maquina_estado.h, linha 141, e o teste em estado_ler.cpp, linha 130.</p>
+
+        <div class="callout div">
+          <h3>Residual que vira zero</h3>
+          <p><code>PRESSAO_RESIDUAL</code> está declarado como <code>static constexpr uint</code> e inicializado com 0,5. O tipo é inteiro sem sinal, então o valor guardado é 0. A comparação que zera a média usa esse valor. <span class="tag t-div">Divergência</span> entre o número escrito e o tipo.</p>
+        </div>
+        <p class="src">maquina_estado.h, linha 142.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="atuadores">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Saídas</p>
+        <h2>Válvulas, bomba e dosadora</h2>
+      </div>
+      <div class="body">
+        <p>O MCP23017 tem 16 saídas, índices 0 a 15, todas configuradas como saída. No setup o firmware escreve nível alto em todas, relé desenergizado. O índice 12 é o relé da bomba: nível baixo energiza e o valor 1 significa ligada. Nível alto desliga. As válvulas normalmente abertas são os índices 0, 6 e 9. As outras são normalmente fechadas. A bomba só liga se uma combinação cadastrada estiver fisicamente aberta.</p>
+        <p class="src">Índice 12: maquina_estado.h, linha 186, e estado_controlar_tratamento.cpp, linha 168 (liga) e linha 250 (desliga em <code>cessar_funcionamento</code>). NA: linha 8 do mesmo arquivo. Combinações: linhas 10 a 21.</p>
+
+        <div class="tw">
+          <table>
+            <thead><tr><th>Uso no código</th><th>Índices que precisam estar abertos</th></tr></thead>
+            <tbody>
+              <tr><td>Tratamento</td><td class="n">6, 9, 0</td></tr>
+              <tr><td>Tratamento</td><td class="n">5, 2, 0</td></tr>
+              <tr><td>Tratamento</td><td class="n">6, 8, 2, 0</td></tr>
+              <tr><td>Tratamento</td><td class="n">5, 8, 9, 0</td></tr>
+              <tr><td>Retrolavagem UF 1</td><td class="n">2, 4, 6, 9</td></tr>
+              <tr><td>Retrolavagem UF 2</td><td class="n">2, 5, 7, 9</td></tr>
+              <tr><td>Retrolavagem zeólita 1</td><td class="n">2, 6, 9, 13</td></tr>
+              <tr><td>Retrolavagem zeólita 2</td><td class="n">2, 5, 9, 15</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="figcap">Os nomes hidráulicos (saída de consumo, esgoto, bypass) não estão escritos como texto no firmware. A tabela do documento de campo, informada pelo dono do produto, dá função a cada índice. A última montagem trocou um filtro de mídia por um filtro de disco, também informado pelo dono do produto.</p>
+        <p class="src">Nomes: index.html deste repositório, tabela das 12 válvulas, por volta das linhas 284 a 296. Fonte declarada na linha 214: informado pelo dono do produto.</p>
+
+        <h3>Tempos da retrolavagem</h3>
+        <p>A etapa de válvula dura 20000 ms. A lavagem dura 60000 ms. A bomba fica desligada 3000 ms na troca. No fim, o estado volta ao tratamento e o relé da bomba (índice 12) vai para nível baixo.</p>
+        <p class="src">maquina_estado.h, classe EstadoControlarLavagem: <code>DURACAO_ETAPA_VALVULA_MS</code> 20000, <code>DURACAO_ETAPA_LAVAGEM_MS</code> 60000 e <code>DURACAO_DESLIGAR_BOMBA_MS</code> 3000. Relé no fim: estado_controlar_lavagem.cpp, escrita de <code>valvulas[12]</code> em nível baixo dentro de <code>on_exit</code>.</p>
+
+        <h3>GPIO 17 da bomba</h3>
+        <p>No setup do tratamento o GPIO 17 entra no LEDC, canal 0, 5000 Hz, 8 bits, e recebe o duty 255. O liga e desliga da bomba, no laço, é o relé 12 do MCP, não uma nova escrita nesse duty. O README diz que o GPIO 17 alimenta a placa de relés.</p>
+        <p class="src">estado_controlar_tratamento.cpp, linhas 31 e 33. Pino e canal: defines.h, linhas 19 e 22. Frase da placa de relés: README, tabela GPIOs principais.</p>
+
+        <h3>Dosadora</h3>
+        <p>O passo do motor está no GPIO 18. A interface do AccelStepper é o tipo 1, STEP/DIR. A velocidade máxima no código é 1000 passos por segundo e a aceleração é 500. O README ainda registra driver A4988, alimentação 12,0 V e Vref de 200 mV. O pino DIR não aparece nesse cabeçalho. A dosadora e o medidor de parâmetros estão instalados e não foram testados em campo, segundo o documento de campo.</p>
+        <p class="src">defines.h, linha 20. lib/dosadora/src/dosadora.h, definição <code>MOTOR_PIN_1</code> 18, <code>MOTOR_INTERFACE_TYPE</code> 1, <code>VELOCIDADE_MAXIMA</code> 1000 e <code>ACELERACAO</code> 500. Teste em campo: index.html deste repositório, seção Dosagem e medição.</p>
+
+        <h3>PCF8574</h3>
+        <p>No 0x20, barramento Wire: liga o modem no pino 0, LED de alarme no 2, LED de alerta no 3, solenoides A, B e C nos pinos 4, 5 e 6. No 0x24: a chave no pino 0, botão iniciar no 1, parar no 2, rotativo no 3, nível A no 4, nível B no 5, LED de tratamento no 6. A interrupção compartilhada é o GPIO 5. O comentário do código diz que a chave está rotulada na placa como bomba manual/elétrica, que esse modo não existe mais, e que a chave passou a habilitar a reciclagem.</p>
+        <p class="src">dispositivos_pcf.cpp, linhas 12 a 17 e 23 a 29. Endereços e GPIO 5: dispositivos_pcf.h, linhas 10 a 12. Início no Wire: dispositivos_pcf.cpp, na função <code>setup</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tarefas">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Andamento</p>
+        <h2>Quem roda em cada núcleo</h2>
+      </div>
+      <div class="body">
+        <p>O <code>setup</code> do Arduino só chama o boot. O núcleo 0 lê o botão e o estado ativo daquele núcleo. O núcleo 1 roda o estado ativo e mexe o motor da dosadora. Outra tarefa, no núcleo 1, mantém o MQTT e o laço de OTA por HTTP. No núcleo 0 há o laço do SIM7080, com GSM, MQTT celular e GPS, e uma tarefa que publica o JSON pendente. O fuso configurado no boot é GMT-3.</p>
+        <p>Existem modos locais de ponto de acesso e de atualização. O README público cita as redes <code>yarabox_AP</code> e <code>yarabox_OTA</code>. Senha, token, usuário e endereço de atualização não entram neste documento.</p>
+        <p class="src">src/main.cpp: <code>setup</code>, <code>loop_principal_nucleo_0</code>, <code>loop_principal_nucleo_1</code>, <code>loop_rede_nucleo_1</code>, <code>loop_SIM7080_nucleo_0</code> e <code>loop_publicacao_nucleo_0</code>. Fuso: estado_boot.cpp, linha 63. Boot de 6 s: maquina_estado.h, linha 96.</p>
+
+        <h3>O que segue para a nuvem</h3>
+        <p>A publicação completa está declarada a cada 60 vezes 3 segundos. A parcial, a cada 10 segundos. A gravação na flash usa 60 vezes 15 segundos. O comentário ao lado dessa última constante diz 30 minutos. A expressão do código é 15 minutos. <span class="tag t-div">Divergência</span> entre o comentário e a conta. Este documento não traz volume de mensagens nem exemplo numérico de telemetria.</p>
+        <p class="src">maquina_estado.h: publicação completa, parcial e gravação nas constantes <code>INTERVALO_PUBLICACAO_COMPLETA_S</code>, <code>INTERVALO_PUBLICACAO_PARCIAL_S</code> e <code>INTERVALO_GRAVACAO_FLASH_S</code>, na classe <code>EstadoPublicarDados</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="arquivos">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Arquivos</p>
+        <h2>O que os JSON do repositório divergem</h2>
+        <p class="q">Nenhum dos dois é a leitura da placa.</p>
+      </div>
+      <div class="body">
+        <p>Os dois arquivos viajam com o firmware. A placa usa o <code>/config.json</code> que estiver na memória dela. Calibração e dose de campo estão <span class="tag t-apx">A confirmar</span>. Na reunião de 13/10/2026 ficou dito que três calibrações estavam prontas e ainda não tinham sido enviadas, e que PT101 e PT102 precisavam de nova calibração de laboratório.</p>
+        <div class="tw">
+          <table>
+            <thead><tr><th>Chave</th><th>config.json</th><th>Padrão de fábrica</th></tr></thead>
+            <tbody>
+              <tr><td>pressao_bomba.estado_muito_alto</td><td class="n">3, linha 78</td><td class="n">40, linha 76</td></tr>
+              <tr><td>dose_hipoclorito, valor</td><td class="n">4000, linha 63</td><td class="n">2500, linha 61</td></tr>
+              <tr><td>limite_maximo_vazao_hora</td><td class="n">2200, linha 42</td><td class="n">600, linha 42</td></tr>
+              <tr><td>Coeficientes do PT104</td><td>linhas 53 e 54</td><td>não há essas chaves</td></tr>
+              <tr><td>Faixas de tensão</td><td>12,4 / 10,0 / 8,0 e 12,3 / 10,5 / 10,0</td><td>os mesmos números</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="src">Unidade dos números de pressão nesses JSON: não está escrita na linha. <span class="tag t-apx">A confirmar</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="proxima">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <p class="eyebrow">Depois deste código</p>
+        <h2>O que a reunião colocou na próxima versão</h2>
+      </div>
+      <div class="body">
+        <p>A reunião de 13/10/2026 falou da próxima versão como 1.0.4. O que está abaixo foi dito nessa conversa. Não está neste código, e não está marcado como feito.</p>
+        <dl class="spec">
+          <div><dt>Calibrações</dt><dd>Três calibrações prontas, ainda não enviadas. PT101 e PT102 precisam de calibração de laboratório porque a calibração anterior não foi confirmada depois da instalação. <span class="tag t-apx">A confirmar</span> o envio.</dd></div>
+          <div><dt>Itens de segurança</dt><dd>Planejados para a semana seguinte ao retorno da Yara. Plano com data, não conclusão. <span class="tag t-apx">A confirmar</span>.</dd></div>
+          <div><dt>Abaixo de 4 mA</dt><dd>Foi discutido tratar leitura abaixo de 4 mA como zero. A regra exata está <span class="tag t-apx">A confirmar</span>. A branch campo-1.0.3 não contém essa regra no código de pressão.</dd></div>
+        </dl>
+        <p class="src">Reunião semanal de 13/10/2026 com o David. O corte de 4 bar dessa mesma reunião está na seção de pressão, não nesta lista.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    <p>Yara · Wara Tech. Firmware do documento de produto, branch campo-1.0.3. Sem senha, token, credencial ou volume de telemetria.</p>
+  </div>
+</footer>
+</body>
+</html>
