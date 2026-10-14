@@ -342,3 +342,6 @@ td.g{color:var(--muted);font-size:13.5px}
 .callout.div{background:var(--div-soft);border-left-color:var(--div)}
 .wrap.hero{padding:112px 40px 72px}
 @media (max-width:680px){.wrap.hero{padding:64px 20px 52px}}
+.src{display:block;position:relative;padding-left:14px}
+.src::before{position:absolute;left:0;top:0}
+.src code{overflow-wrap:anywhere}
