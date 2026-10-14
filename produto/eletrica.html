@@ -18,7 +18,7 @@
       <div><b>Projeto elétrico</b><span>provavelmente o de campo, a confirmar</span></div>
       <div><b>Controlador no código</b><span>ESP32-S3</span></div>
       <div><b>Placa citada como produção</b><span>Joker, PCB Core V1.1</span></div>
-      <div><b>Modelos de campo</b><span>fonte, bateria, sensores: a confirmar</span></div>
+      <div><b>Modelos de campo</b><span>fonte, bateria e sensor de pressão confirmados; sensor de vazão a confirmar</span></div>
     </div>
   </div>
 
@@ -100,7 +100,7 @@
             </g>
           </svg>
         </div>
-        <p class="figcap">O display SH1107, endereço 0x3C, também fica no barramento Wire. O diagrama não inclui modelo comercial de sensor, fonte ou bateria.</p>
+        <p class="figcap">O display SH1107, endereço 0x3C, também fica no barramento Wire. O diagrama não inclui modelo comercial de sensor, fonte ou bateria. Os modelos confirmados estão em Alimentação e em Sensores.</p>
 
         <h3>Barramentos</h3>
         <p>No boot, o firmware abre dois I²C. <code>Wire.begin</code> usa os pinos SDA 8 e SCL 9. <code>Wire1.begin</code> usa SDA 11 e SCL 13. Os dois relógios ficam em 100 kHz. O MCP23017 mora só no segundo barramento, no endereço 0x20. Um PCF8574 usa o mesmo número 0x20, mas no primeiro barramento. São chips diferentes em fios diferentes.</p>
@@ -127,9 +127,9 @@
         <h2>O que o desenho nomeia</h2>
       </div>
       <div class="body">
-        <p>Na folha de alimentação aparecem os rótulos Fonte-Chaveada, Painel Solar 1, Painel Solar 2, Placa Seletora, Placa Core e Bateria - 3S. São nomes do desenho. O modelo comercial da fonte e o modelo comercial da bateria estão <span class="tag t-apx">A confirmar</span>. O rótulo 3S não diz a química da bateria.</p>
+        <p>Na folha de alimentação aparecem os rótulos Fonte-Chaveada, Painel Solar 1, Painel Solar 2, Placa Seletora, Placa Core e Bateria - 3S. São nomes do desenho. A fonte é a do projeto IFF: uma fonte chaveada de 12 V / 20 A, ligada na entrada P1 da chave seletora. O modelo exato não ficou registrado. A bateria é um pack de 18650, 3S3P, 11,1 V / 6,48 Ah. Resolvido: confirmado pelo Rodrigo em 14/10/2026 às 17h38.</p>
         <p>O documento de campo já publicado diz que a rede no local é de 220 V, informado pelo dono do produto. O README da placa seletora descreve uma entrada A de 110/220 V para 12 V em corrente contínua, além de 12 V direto, gerador, MPPT solar e geração manual. Se a seletora, os painéis e a bateria do desenho são os que estão instalados está <span class="tag t-apx">A confirmar</span>.</p>
-        <p class="src">Alimentacao.kicad_sch, propriedades Value desses símbolos. Rede de 220 V: index.html deste repositório, seção Hidráulica, fonte "Informado pelo dono do produto". Seletora: README de YB-modulo-basico-pcb-seletor-de-alimentacao-publico.</p>
+        <p class="src">Alimentacao.kicad_sch, propriedades Value desses símbolos. Rede de 220 V: index.html deste repositório, seção Hidráulica, fonte "Informado pelo dono do produto". Seletora: README de YB-modulo-basico-pcb-seletor-de-alimentacao-publico. Fonte e bateria: confirmado pelo Rodrigo em 14/10/2026; bateria em 04_eletrico.md e 07_montagem_fisica.md, no Drive da Wara.</p>
         <div class="callout warn">
           <h3>Faixas de tensão no arquivo do repositório</h3>
           <p>Os dois JSON do firmware trazem os mesmos números de tensão: alimentação normal 12,4, baixo 10,0 e muito baixo 8,0; bateria normal 12,3, baixo 10,5 e muito baixo 10,0. A comparação que desligaria a bomba por tensão baixa está comentada no código e substituída por um valor fixo verdadeiro. Essas faixas são do arquivo do repositório. O que está gravado na placa de campo está a confirmar.</p>
@@ -147,7 +147,7 @@
       </div>
       <div class="body">
         <p>A folha de sensores desenha um Sensor de Fluxo, dois sensores de nível, Transdutor 1, Transdutor 2 e a Placa Core. Textos no desenho citam PT100, PT101, PT102 e PT103. Não há um texto PT104 nessa folha. O firmware lê cinco canais de pressão, do PT100 ao PT104. O quinto canal no desenho de campo está <span class="tag t-apx">A confirmar</span>.</p>
-        <p>Nenhum desses símbolos traz fabricante ou código de catálogo. O modelo do sensor de pressão e o modelo do sensor de vazão estão <span class="tag t-apx">A confirmar</span>. O desenho também escreve LSL200, LSLL200 e VALVULA 1 a 4. Esses textos não são os índices 0 a 15 do MCP23017. A função hidráulica de cada índice, quando aparece na página de firmware, vem do documento de campo informado pelo dono do produto, não deste esquemático.</p>
+        <p>Nenhum desses símbolos traz fabricante ou código de catálogo. O sensor de pressão é o HK2404, rosca G1/4, 0,5 MPa, 5 V. Foram compradas 5 unidades em 30/07/2026 (tarefa 86e2jrwc5 no ClickUp). Resolvido: confirmado pelo Rodrigo em 14/10/2026 às 17h38. O modelo do sensor de vazão está <span class="tag t-apx">A confirmar</span>. O desenho também escreve LSL200, LSLL200 e VALVULA 1 a 4. Esses textos não são os índices 0 a 15 do MCP23017. A função hidráulica de cada índice, quando aparece na página de firmware, vem do documento de campo informado pelo dono do produto, não deste esquemático.</p>
         <p class="src">Sensores.kicad_sch: valores dos símbolos e textos PT100 a PT103, LSL200, LSLL200 e VALVULA. Canais do firmware: lib/dispositivos_ads/src/dispositivos_ads.cpp, linhas 12 a 20.</p>
       </div>
     </div>
