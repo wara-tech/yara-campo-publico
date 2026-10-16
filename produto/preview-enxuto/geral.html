@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta name="robots" content="noindex"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yara: Geral · Wara Tech</title><link rel="stylesheet" href="estilo.css"></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="geral.html">Yara<span>doc de produto</span></a><nav class="pages" aria-label="Páginas"><a href="geral.html" class="cur" aria-current="page"><i>01</i>Geral</a><a href="hidraulica.html"><i>02</i>Hidráulica</a><a href="eletrica.html"><i>03</i>Elétrica</a><a href="firmware.html"><i>04</i>Firmware</a></nav></div></header>
+<div class="subnav"><div class="wrap"><a href="#yara">01 O que é</a><a href="#demanda">02 Vazão</a><a href="#fluxo">03 Fluxo</a><a href="#meta">04 Meta</a></div></div>
+<main id="topo"><div class="hero"><div class="wrap"><p class="eyebrow">Wara Tech · Doc de produto · Geral</p><h1>Yara: tratamento de água para gado</h1><p class="lede">A Yara num lugar só: o que ela é, como funciona, a vazão de projeto, a meta de qualidade e em que ponto está o desenvolvimento.</p><div class="guide"><div class="box"><h3>Como ler os dados</h3><div class="legend">
+<span class="tag t-med">Medido</span><span>Valor medido, com laudo ou método registrado.</span>
+<span class="tag t-apx">Aproximado</span><span>Valor com “~” na fonte, sem método registrado.</span>
+<span class="tag t-apx">Estimativa</span><span>Cálculo nosso a partir de premissas; não medido.</span>
+<span class="tag t-rel">Relato</span><span>Observação ou registro da equipe.</span>
+</div></div></div></div></div><section id="yara"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>01</b>O que é</p><h2>O que é a Yara</h2></div><div class="body">
+<p class="lead">A Yara é a estação de tratamento de água para gado da Wara Tech. A água passa por uma bomba e segue por duas linhas em paralelo, cada uma com pré-filtro e ultrafiltração (UF), e vai direto ao bebedouro com boia, sem reservatório intermediário.</p>
+<p>A máquina tem controle próprio (ESP32-S3, válvulas motorizadas em quantidade a confirmar) e envia telemetria para a nuvem. Detalhes em <a href="eletrica.html">Elétrica</a> e <a href="firmware.html">Firmware</a>.</p>
+<h3 class="sub" style="margin-top:40px">Capacidade registrada</h3>
+<dl class="spec">
+<div><dt>Versão de campo, teto de produto</dt><dd>~2.000 L/h <span class="tag t-rel">Relato</span><small>O painel indica vazão baixa abaixo de ~2.000 L/h.</small></dd></div>
+<div><dt>UF, vazão nominal</dt><dd>~3.000 L/h por linha <span class="tag t-apx">Aproximado</span><small>Modelo e fabricante não registrados.</small></dd></div>
+<div><dt>Bomba, entrega medida</dt><dd>~1.500 a 1.700 L/h <span class="tag t-med">Medido</span><small>Dancor AP3C, ~1 CV, medida com balde (erro &lt; 100 L/h).</small></dd></div>
+
+</dl>
+</div></div></section><section id="demanda"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>02</b>Vazão</p><h2>O cálculo da vazão de projeto</h2></div><div class="body">
+<div class="prose">
+<p>Equação de consumo de água para zebuínos do BR-CORTE 2023 (cap. 14), baseada em Zanetti et al. (2019), com Nelore criados em condições tropicais:</p>
+<div class="formula">CA (L/dia) = 9,449 + 0,190 × PC<sup>0,75</sup> + 0,271 × T<sub>máx</sub> − 0,259 × UR + 0,489 × CMS</div>
+<p>PC<sup>0,75</sup> é o peso corporal metabólico (kg<sup>0,75</sup>), T<sub>máx</sub> a temperatura máxima (°C), UR a umidade relativa do ar (%) e CMS o consumo de matéria seca (kg/dia). Para animais de 450 a 500 kg, com 35 °C, 70% de umidade e 8,5 a 11 kg de matéria seca por dia, a equação dá cerca de 24 a 26 L por cabeça por dia. Esse cálculo é nosso, e a umidade e a ingestão são premissas <span class="tag t-apx">Estimativa</span>. Nenhuma das nossas fontes valida a equação. Por isso adotamos 40 L por cabeça por dia: é o consumo que a Embrapa usa para um bovino de 450 kg (Minho e Gaspar, “Água na pecuária”, cap. 5) e o maior consumo de dessedentação entre 17 confinamentos de Nelore em São Paulo, cuja média foi de 37,8 L por animal por dia (Morelli, Palhares et al.).</p>
+<p>A premissa de projeto é que o consumo se divide em dois momentos, um de manhã e outro à tarde, com metade do volume diário em cada um. Cada momento é reposto em 1 h. Exemplo, para 56 cabeças:</p>
+<div class="formula">56 cabeças × 40 L/cab/dia = 2.240 L/dia<br/>2.240 L/dia ÷ 2 momentos = 1.120 L por momento<br/>1.120 L reposto em 1 h → vazão de projeto = 1.120 L/h</div>
+<p>Os dois momentos e a reposição em 1 h são premissa de projeto, não comportamento medido. Uma reposição de 2.000 L/h cobre a vazão de projeto com folga: é cerca de 1,8 vez os 1.120 L/h e repõe os 1.120 L de cada momento em cerca de 34 minutos. A folga cobre dias mais quentes, desperdício e o erro das estimativas.</p>
+</div>
+</div></div></section><section id="fluxo"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>03</b>Fluxo</p><h2>Visão geral do fluxo</h2></div><div class="body">
+
+<p class="swipe">Deslize o diagrama para o lado →</p>
+<div class="fig"><svg viewBox="0 0 980 190" font-family="InterDoc,Inter,sans-serif" role="img" aria-label="Fluxo geral: água da rede, bomba, válvula de retenção, duas linhas, cada uma com pré-filtro e UF, bebedouro com boia">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9aa1a9"/></marker></defs>
+<g font-size="13" fill="#0f1215" font-weight="500" text-anchor="middle">
+<rect x="10" y="70" width="130" height="54" rx="10" fill="#f3f4f5" stroke="#e8e9eb"/><text x="75" y="94">Água a tratar</text><text x="75" y="112" font-size="11" fill="#6b737c" font-weight="400">rede</text>
+<rect x="180" y="70" width="110" height="54" rx="10" fill="#fff" stroke="#c3c9cf"/><text x="235" y="94">Bomba</text><text x="235" y="112" font-size="11" fill="#6b737c" font-weight="400">+ retenção 3/4"</text>
+<rect x="340" y="18" width="380" height="58" rx="10" fill="#eaf4f5" stroke="#0d6e7a"/><text x="530" y="42">Linha 1 · pré-filtro + UF</text><text x="530" y="60" font-size="11" fill="#0a5560" font-weight="400">filtra, ou é limpa pela outra linha</text>
+<rect x="340" y="118" width="380" height="58" rx="10" fill="#eaf4f5" stroke="#0d6e7a"/><text x="530" y="142">Linha 2 · pré-filtro + UF</text><text x="530" y="160" font-size="11" fill="#0a5560" font-weight="400">filtra, ou é limpa pela outra linha</text>
+<rect x="780" y="70" width="190" height="54" rx="10" fill="#fff" stroke="#2f7d4f"/><text x="875" y="94">Bebedouro com boia</text><text x="875" y="112" font-size="11" fill="#2f7d4f" font-weight="400">ponto de entrega da meta</text></g>
+<g stroke="#9aa1a9" stroke-width="1.6" fill="none" marker-end="url(#ar)"><path d="M140 97H178"/><path d="M290 97H315V47H338"/><path d="M315 97V147H338"/><path d="M720 47H750V97H778"/><path d="M720 147H750V97"/></g>
+<text x="530" y="104" text-anchor="middle" font-size="11.5" fill="#6b737c" font-family="InterDoc,Inter,sans-serif">duas linhas</text></svg></div>
+<p class="figcap">Diagrama simplificado. As configurações (original e de hoje) estão na página <a href="hidraulica.html#config">Hidráulica</a>.</p>
+</div></div></section><section id="meta"><div class="wrap sec"><div class="sec-head"><p class="eyebrow"><b>04</b>Meta</p><h2>Meta de qualidade na entrada do bebedouro</h2></div><div class="body">
+<div class="callout"><p class="callout-h">Ponto de entrega</p><p>A meta vale para a água na entrada do bebedouro (saída da Yara), não para a água dentro do cocho.</p></div>
+
+
+<div class="tw">
+<table class="meta">
+<thead><tr><th>Parâmetro</th><th class="c-i">Ideal</th><th class="c-a">Aceitável</th><th class="c-e">Evitar</th><th>Régua</th></tr></thead>
+<tbody>
+<tr><td>TDS / salinidade</td><td class="c-i">&lt; 1.000 ppm</td><td class="c-a">1.000 – 3.000</td><td class="c-e">&gt; 3.000</td><td class="r">NRC</td></tr>
+<tr><td>Sulfato (SO₄)</td><td class="c-i">&lt; 500 ppm</td><td class="c-a">500 – 1.000</td><td class="c-e">&gt; 1.500 · risco PEM</td><td class="r">NRC</td></tr>
+<tr><td>Nitrato (NO₃-N)</td><td class="c-i">&lt; 10 ppm</td><td class="c-a">10 – 20</td><td class="c-e">&gt; 40</td><td class="r">NRC</td></tr>
+<tr><td>pH</td><td class="c-i">6,5 – 8,0</td><td class="c-a">6,0 – 8,5</td><td class="c-e">&lt; 5,5 ou &gt; 9</td><td class="r">NRC</td></tr>
+<tr><td>Metais tóxicos</td><td class="c-i">As &lt;0,2 · Pb &lt;0,1 · F &lt;2,0</td><td class="c-a">—</td><td class="c-e">acima dos limites</td><td class="r">NRC</td></tr>
+<tr><td>E. coli</td><td class="c-i">Ausência</td><td class="c-a">—</td><td class="c-e">qualquer presença</td><td class="r">888</td></tr>
+<tr><td>Coliformes totais</td><td class="c-i">Ausência</td><td class="c-a">—</td><td class="c-e">qualquer presença</td><td class="r">888</td></tr>
+<tr><td>Físico / manejo</td><td class="c-i">Fresca, limpa, ad libitum</td><td class="c-a">—</td><td class="c-e">quente, suja, acesso restrito</td><td class="r">Prát.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="figcap">Valores de referência para bovinos de corte. Ideal · Aceitável (monitorar) · Evitar: corrige consumo, GMD ou saúde.</p>
+<h3 class="sub">As duas réguas</h3>
+<p><b>Régua 1, química e nutricional (NRC / NASEM):</b> o que está dissolvido (desempenho/GMD, toxicidade); também toxinas de alga; não cobre bactéria, vírus nem turbidez. Origem: NRC (1974); NASEM (2016).</p>
+<p><b>Régua 2, sanitária e microbiológica (Portaria 888/2021 + EPA / WHO):</b> ausência de patógenos; também carga microbiana e turbidez (indicador). Origem: Portaria GM/MS 888/2021; EPA / WHO.</p>
+
+
+
+<p class="src">Fontes: doc público da Yara de campo; levantamento de capacidade (set/2026); BR-CORTE 2023 cap. 14; Zanetti et al. (2019); Embrapa, “Água na pecuária” cap. 5; Morelli, Palhares et al. (Embrapa); “A água ideal para o gado”, Wara Tech (jun/2026). Lacunas do PDF: <a class="dref" href="hidraulica.html#d13">D13</a> <a class="dref" href="hidraulica.html#d14">D14</a>.</p></div></div></section></main>
+<footer><div class="wrap"><p class="end">Wara Tech · Yara: Geral · documento vivo, atualizado em 14/10/2026 · Páginas: <a href="geral.html">Geral</a> · <a href="hidraulica.html">Hidráulica</a> · <a href="eletrica.html">Elétrica</a> · <a href="firmware.html">Firmware</a></p></div></footer>
+<script>(function(){var l=[].slice.call(document.querySelectorAll('.subnav a'));var m={};l.forEach(function(a){m[a.getAttribute('href').slice(1)]=a});if(!('IntersectionObserver' in window))return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){l.forEach(function(a){a.classList.remove('on')});var a=m[e.target.id];if(a)a.classList.add('on')}})},{rootMargin:'-45% 0px -50% 0px'});document.querySelectorAll('section[id]').forEach(function(s){o.observe(s)})})();</script></body></html>
